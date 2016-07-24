@@ -42,6 +42,40 @@ $app->get('/home', function ($request, $response, $args) {
     }
 });
 
+$app->get('/music', function ($request, $response, $args) {
+    // Verify if user is authenticated
+    if (isset($_SESSION['user'])) {
+        $user = $_SESSION['user'];
+        $sql = "SELECT * FROM likes WHERE user=:user";
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute(["user" => $user]);
+        if($result) {
+            while($song = $stmt->fetch(PDO::FETCH_NUM)) {
+                $songs[] = $song;
+            }
+        }
+        $spotify = new SpotifyWebAPI\SpotifyWebAPI();
+        $session = new SpotifyWebAPI\Session('5057ad4ae2c84bd9be39b03e6e72f4dc', 
+        '850e396f29264b718937c88f376acaea', 'http://localhost:8081/music');
+        $scopes = array();
+        $session->requestCredentialsToken($scopes);
+        $accessToken = $session->getAccessToken();
+        $spotify->setAccessToken($accessToken);
+        $songinfo = "";
+        foreach($songs as $song){
+            $results = $spotify->getTrack($song[1]);
+            $songinfo .= "<tr><td>".$results->name."</td>
+                <td>".$results->artists[0]->name."</td><td>".$results->album->name."</td></tr>";
+        }
+
+        $_SESSION['songinfo'] = $songinfo;
+        return $this->renderer->render($response, 'music.phtml', $args);
+   } else {
+      return $this->renderer->render($response, 'login.phtml', $args);
+    }
+    
+});
+
 $app->post('/signin', function ($request, $response, $args) {
     $data = $request->getParsedBody();
     $user_data = [];
@@ -125,6 +159,35 @@ $app->post('/ajax', function($request, $response) {
     $new_song[4] = $song_link;
 
     echo json_encode($new_song);
+});
+
+$app->post('/ajaxMusic', function($request, $response, $a) {
+    $data = $request->getParsedBody();
+    $user = filter_var($data['user'], FILTER_SANITIZE_STRING);
+    
+    $sql = "SELECT * FROM likes WHERE user=:user";
+    $stmt = $this->db->prepare($sql);
+    $result = $stmt->execute([
+        "user" => $user,
+    ]);
+
+    while($song = $result->fetch_array()) {
+        $songs[] = $song;
+    }
+    $spotify = new SpotifyWebAPI\SpotifyWebAPI();
+    $session = new SpotifyWebAPI\Session('5057ad4ae2c84bd9be39b03e6e72f4dc', 
+    '850e396f29264b718937c88f376acaea', 'http://localhost:8080/home');
+    $scopes = array();
+    $session->requestCredentialsToken($scopes);
+    $accessToken = $session->getAccessToken();
+    $spotify->setAccessToken($accessToken);
+    foreach($songs as $song){
+        $results = $spotify->getTrack($song[1]);
+        $songinfo .= "<tr><td>".$results->name."</td>
+            <td>".$results->artists[0]->name."</td><td>".$results->album->name."</td></tr>";
+    }
+
+    echo $songinfo;
 });
 
 /**

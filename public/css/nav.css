@@ -57,14 +57,8 @@
 #topnav ul li a.mainpage:after, #topnav ul li a.mainpage:before {
   background: #7ed0d6;
 }
-#topnav ul li a.profile:after, #topnav ul li a.profile:before {
-  background: #4E9689;
-}
 #topnav ul li a.music:after, #topnav ul li a.music:before {
   background: #87D69B;
-}
-#topnav ul li a.connections:after, #topnav ul li a.connections:before {
-  background: #C3FF68;
 }
 
 #topnav ul li a:after {
@@ -104,14 +98,8 @@
 #topnav ul li a.mainpage.active {
   color: #7ed0d6;
 }
-#topnav ul li a.profile.active {
-  color: #4E9689;
-}
 #topnav ul li a.music.active {
   color: #87D69B;
-}
-#topnav ul li a.connections.active {
-  color: #C3FF68;
 }
 #topnav ul li a.active:before {
   width: 100%;

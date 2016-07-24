@@ -1,18 +1,123 @@
+<?php  
+$user = $_SESSION['user'];
+$song_name = $_SESSION['song_name'];
+$artist = $_SESSION['artist'];
+$song_img = $_SESSION['song_img'];
+$song_id = $_SESSION['song_id'];
+$song_link = $_SESSION['song_link'];
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8"/>
         <title>Home</title>
         <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="css/hover.css" media="all">
+        <link rel="stylesheet" href="css/click.css" type="text/css" />
+        <link rel="stylesheet" href="css/nav.css">
         <link href='css/style.css' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     </head>
     <body>
-        <h1>Hello</h1>
-        <div>Please select one of the following: </div>
-        <br>
+        <nav id="topnav" class="navbar-fixed-top">
+            <div class = "container-fluid">
+                <div class="navbar-header">
+                    <button style="background-color:#DFDCD7" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span style="background-color:#FFF" class = "icon-bar"></span>
+                        <span style="background-color:#FFF" class = "icon-bar"></span>
+                        <span style="background-color:#FFF" class = "icon-bar"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul id="sides" class="nav navbar-nav navbar-left">
+                      <li><a href="#">Hello <?php echo $user ?></a></li>
+                    </ul>
+                    <ul id="navbar-list">
+                        <li><a href="mainpage" class="mainpage active">Home</a></li>
+                        <li><a href="music">My Music</a></li>
+                    </ul>
+                    <ul id="sides" class="nav navbar-nav navbar-right">
+                      <li><a href="logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="cover">
+            <img id="img_link" src="<?php echo "$song_img"; ?>">
+            <img id="play_pause" class="play" src="img/play.png">
+            <div class="loader-inner line-scale-pulse-out"></div>
+            <h2><span id="song_name"><?php echo "$song_name"; ?></span></h2>
+            <h3><span id="song_artist"><?php echo "$artist"; ?></span></h3>
+            <input type="hidden" id="song_id" value="<?php echo $song_id ?>">
+        </div>
+        <audio controls id="song">
+            <source id="song_link" src="<?php echo "$song_link"; ?>" type="audio/mpeg"></audio>
+        </audio>
+        <div class="buttons">
+            <button class="button button--effect-nikola" value="like" id="like">
+                <img src="img/like.png" class="hvr-pulse">
+            </button>
+            <button class="button button--effect-nikola" value="dislike" id="dislike">
+                <img src="img/dislike.png" class="hvr-buzz">
+            </button>
+        </div>
         
         
         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
         <script src="js/login.js"></script>
+        <script>
+        $(document).ready(function(){
+        var mus = document.getElementById("song");
+        mus.onplay = function() {
+            $("#play_pause").attr("src","img/pause.png");
+        };
+        mus.onpause = function() {
+            $("#play_pause").attr("src","img/play.png");
+        };
+        $('.button').click(function(){ 
+            $("#like").prop("disabled",true);
+            $("#dislike").prop("disabled",true);
+            $("#play_pause").fadeOut(300, function() {});
+            var clickBtnValue = $(this).attr('value');
+            var songId = $("#song_id").attr('value');
+            var user = '<?php echo $user ?>';
+            var ajaxurl = 'ajax',
+            data =  {'action': clickBtnValue, 'id': songId, 'user': user};
+            $.post(ajaxurl, data, function(response) {
+                $("#song_name").text(response[0]);//song_name
+                $("#song_artist").text(response[1]);//artist
+                $("#song_id").attr("value",response[2]);//song_id
+                $("#song_link").attr("src",response[4]);//song_link
+                var sound = $("#song")[0];
+                sound.load();
+                sound.play();
+                $("#img_link").fadeOut(300, function() {
+                    $("#img_link").attr("src",response[3]);//song_image
+                }).fadeIn(300);
+                $("#play_pause").fadeIn(300);
+                $("#like").prop("disabled",false);
+                $("#dislike").prop("disabled",false);
+            }, "json");
+        });
+        var audio = $("#song")[0];
+        $('.play').click(function() {
+            audio = $("#song")[0];
+            if(audio.paused){
+                //audio.load();
+                audio.play();
+                $("#play_pause").attr("src","img/pause.png");
+            } else {
+                audio.pause();
+                $("#play_pause").attr("src","img/play.png");
+            }
+        });
+
+    });
+    </script>
     </body>
 </html>

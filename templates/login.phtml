@@ -12,7 +12,7 @@
         <br>
         
         <div class="form">
-            <?php if(isset($_SESSION['error'])){ echo $_SESSION['error'];}?>
+            <?php if(isset($_POST['error'])){ echo $_POST['error'];}?>
             <form class="register-form" action="signup" method="post">
               <input type="text" name="name" placeholder="name"/>
               <input type="password" name="password" placeholder="password"/>

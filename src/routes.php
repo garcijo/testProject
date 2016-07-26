@@ -8,20 +8,13 @@ $app->get('/login', function ($request, $response, $args) {
 $app->get('/home', function ($request, $response, $args) {
     // Verify if user is authenticated
     if (isset($_SESSION['user'])) {
-        $spotify = new SpotifyWebAPI\SpotifyWebAPI();
-        $session = new SpotifyWebAPI\Session('5057ad4ae2c84bd9be39b03e6e72f4dc', 
-        '850e396f29264b718937c88f376acaea', 'http://localhost:8080/home');
-        $scopes = array();
-        $session->requestCredentialsToken($scopes);
-        $accessToken = $session->getAccessToken();
-        $spotify->setAccessToken($accessToken);
+        $spotify = $this->spotify;
 
         $playlist = $spotify->getRecommendations(array(
           'limit' => 1,
           'seed_genres' => array('indie'),
           'market' => 'CA',
         ));
-        
         $song = $playlist->tracks[0];
         $song_name = $song->name;
         $_SESSION['song_name'] = $song_name;
@@ -38,7 +31,8 @@ $app->get('/home', function ($request, $response, $args) {
         
         return $this->renderer->render($response, 'home.phtml', $args);
    } else {
-      return $this->renderer->render($response, 'login.phtml', $args);
+        $response = $response->withRedirect("/login");
+        return $response;
     }
 });
 
@@ -54,13 +48,7 @@ $app->get('/music', function ($request, $response, $args) {
                 $songs[] = $song;
             }
         }
-        $spotify = new SpotifyWebAPI\SpotifyWebAPI();
-        $session = new SpotifyWebAPI\Session('5057ad4ae2c84bd9be39b03e6e72f4dc', 
-        '850e396f29264b718937c88f376acaea', 'http://localhost:8081/music');
-        $scopes = array();
-        $session->requestCredentialsToken($scopes);
-        $accessToken = $session->getAccessToken();
-        $spotify->setAccessToken($accessToken);
+        $spotify = $this->spotify;
         $songinfo = "";
         foreach($songs as $song){
             $results = $spotify->getTrack($song[1]);
@@ -71,7 +59,8 @@ $app->get('/music', function ($request, $response, $args) {
         $_SESSION['songinfo'] = $songinfo;
         return $this->renderer->render($response, 'music.phtml', $args);
    } else {
-      return $this->renderer->render($response, 'login.phtml', $args);
+        $response = $response->withRedirect("/login");
+        return $response;
     }
     
 });
@@ -94,9 +83,14 @@ $app->post('/signin', function ($request, $response, $args) {
 $app->get('/logout', function ($request, $response, $args) {
     session_unset();
     session_destroy();
-    return $this->renderer->render($response, 'login.phtml', $args);
+    $response = $response->withRedirect("/login");
+    return $response;
 });
 
+$app->get('/signup', function ($request, $response, $args) {
+    $response = $response->withRedirect("/login");
+    return $response;
+});
 $app->post('/signup', function ($request, $response, $args) {
     $data = $request->getParsedBody();
     $user_data = [];
@@ -108,14 +102,14 @@ $app->post('/signup', function ($request, $response, $args) {
     //First check the email doesn't exist yet
     $user = $user_mapper->searchUser($user_email);
     if(!empty($user->getName())){
-        $_SESSION['error'] = '<p class="error">That email address already exists!</p>';
-        $response = $response->withRedirect("/login");
+        $_POST['error'] = '<p class="error">That email address already exists!</p>';
+        return $this->renderer->render($response, 'login.phtml', $args);
     } else{
         $user = $user_mapper->createUser($user_name, $user_email, $user_pass);
         $_SESSION['user'] = $user_name;
         $response = $response->withRedirect("/home");
+        return $response;
     }
-    return $response;
 });
 
 $app->post('/ajax', function($request, $response) {
@@ -138,14 +132,7 @@ $app->post('/ajax', function($request, $response) {
         }
     }
     
-    $spotify = new SpotifyWebAPI\SpotifyWebAPI();
-    $session = new SpotifyWebAPI\Session('5057ad4ae2c84bd9be39b03e6e72f4dc', 
-    '850e396f29264b718937c88f376acaea', 'http://localhost:8080/home');
-    $scopes = array();
-    $session->requestCredentialsToken($scopes);
-    $accessToken = $session->getAccessToken();
-    $spotify->setAccessToken($accessToken);
-
+    $spotify = $this->spotify;
     $playlist = $spotify->getRecommendations(array(
       'limit' => 1,
       'seed_genres' => array('indie'),
@@ -181,13 +168,7 @@ $app->post('/ajaxMusic', function($request, $response, $a) {
     while($song = $result->fetch_array()) {
         $songs[] = $song;
     }
-    $spotify = new SpotifyWebAPI\SpotifyWebAPI();
-    $session = new SpotifyWebAPI\Session('5057ad4ae2c84bd9be39b03e6e72f4dc', 
-    '850e396f29264b718937c88f376acaea', 'http://localhost:8080/home');
-    $scopes = array();
-    $session->requestCredentialsToken($scopes);
-    $accessToken = $session->getAccessToken();
-    $spotify->setAccessToken($accessToken);
+    $spotify = $this->spotify;
     foreach($songs as $song){
         $results = $spotify->getTrack($song[1]);
         $songinfo .= "<tr><td>".$results->name."</td>

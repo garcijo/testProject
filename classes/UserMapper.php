@@ -12,7 +12,7 @@ class UserMapper extends Mapper
         return $results;
     }
     
-    public function loginUser($user_email, $user_pass) {
+    public function loginUser($user_email,$user_pass) {
         $email = $user_email;
         $pass = $user_pass;
         $sql = "SELECT name, email, password
@@ -24,8 +24,7 @@ class UserMapper extends Mapper
     
     public function searchUser($user_email) {
         $email = $user_email;
-        $sql = "SELECT name, email
-            FROM user WHERE email = :user_email";
+        $sql = "SELECT * FROM user WHERE email = :user_email";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(["user_email" => $email]);
         return new UserEntity($stmt->fetch());

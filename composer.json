@@ -16,6 +16,7 @@
         "slim/slim": "^3.1",
         "slim/php-view": "^2.0",
         "monolog/monolog": "^1.17",
-        "jwilsson/spotify-web-api-php": "^1.0.0"
+        "jwilsson/spotify-web-api-php": "^1.0.0",
+        "phpunit/phpunit": "5.4.*"
     }
 }

@@ -12,8 +12,9 @@ $app->get('/login', function ($request, $response, $args) {
 $app->get('/home', function ($request, $response, $args) {
     // Verify if user is authenticated
     if (isset($_SESSION['user'])) {
-        $spotify = new SpotifyFeed($this->spotify);
-        $playlist = $spotify->getPlaylist();
+        $user = $_SESSION['user'];
+        $spotify = new SpotifyFeed($this->spotify,$this->db);
+        $playlist = $spotify->getPlaylist($user);
         $spotify->setSong($playlist);
         return $this->renderer->render($response, 'home.phtml', $args);
    } else {
@@ -35,10 +36,10 @@ $app->get('/music', function ($request, $response, $args) {
                 $songs[] = $song;
             }
         }
-        $spotify = new SpotifyFeed($this->spotify);
+        $spotify = new SpotifyFeed($this->spotify,$this->db);
         $songinfo = "";
         foreach($songs as $song){
-            $results = $spotify->getTrack($song[1]);
+            $results = $this->spotify->getTrack($song[1]);
             $songinfo .= "<tr><td>".$results->name."</td>
                 <td>".$results->artists[0]->name."</td><td>".$results->album->name."</td></tr>";
         }
@@ -119,8 +120,8 @@ $app->post('/ajax', function($request, $response) {
         }
     }
     
-    $spotify = new SpotifyFeed($this->spotify);
-    $playlist = $spotify->getPlaylist();
+    $spotify = new SpotifyFeed($this->spotify,$this->db);
+    $playlist = $spotify->getPlaylist($user);
     $new_song = $spotify->getSong($playlist);
 
     echo json_encode($new_song);
@@ -138,9 +139,9 @@ $app->post('/ajaxMusic', function($request, $response, $a) {
         $songs[] = $song;
     }
     
-    $spotify = new SpotifyFeed($this->spotify);
+    $spotify = new SpotifyFeed($this->spotify,$this->db);
     foreach($songs as $song){
-        $results = $spotify->getTrack($song[1]);
+        $results = $this->spotify->getTrack($song[1]);
         $songinfo .= "<tr><td>".$results->name."</td>
             <td>".$results->artists[0]->name."</td><td>".$results->album->name."</td></tr>";
     }

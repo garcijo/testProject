@@ -2,7 +2,7 @@
 class SpotifyFeed extends Feed
 {
     //Looks up a new song through Spotify's api
-    public function getPlaylist($user) {
+    public function newSong(string $user) {
         do {
             $playlist = $this->spotify->getRecommendations(array(
               'limit' => 1,
@@ -14,10 +14,10 @@ class SpotifyFeed extends Feed
             $song_id =  $song->id;
             $exists = $this->verifySong($song_id, $user);
         } while($exists);
-        return $playlist;
+        return $song;
     }
     
-    private function verifySong($song_id, $user){
+    private function verifySong(string $song_id, string $user){
         $sql = "SELECT * FROM likes WHERE user =:user AND songId =:song_id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute(["user" => $user, "song_id" => $song_id,]);
@@ -29,8 +29,7 @@ class SpotifyFeed extends Feed
     }
     
     //
-    public function setSong($playlist) {
-        $song = $playlist->tracks[0];
+    public function setSong($song) {
         $song_id =  $song->id;
         $_POST['song_id'] = $song_id;
         $song_name = $song->name;
@@ -45,8 +44,7 @@ class SpotifyFeed extends Feed
         $_POST['song_width'] = $song_width;
     }
     
-    public function getSong($playlist):array {
-        $song = $playlist->tracks[0];
+    public function getSong($song):array {
         $song_name = $song->name;
         $artist = $song->artists[0]->name;
         $song_id =  $song->id;

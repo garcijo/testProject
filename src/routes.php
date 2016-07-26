@@ -14,8 +14,8 @@ $app->get('/home', function ($request, $response, $args) {
     if (isset($_SESSION['user'])) {
         $user = $_SESSION['user'];
         $spotify = new SpotifyFeed($this->spotify,$this->db);
-        $playlist = $spotify->getPlaylist($user);
-        $spotify->setSong($playlist);
+        $song = $spotify->newSong($user);
+        $spotify->setSong($song);
         return $this->renderer->render($response, 'home.phtml', $args);
    } else {
         $response = $response->withRedirect("/login");
@@ -121,8 +121,8 @@ $app->post('/ajax', function($request, $response) {
     }
     
     $spotify = new SpotifyFeed($this->spotify,$this->db);
-    $playlist = $spotify->getPlaylist($user);
-    $new_song = $spotify->getSong($playlist);
+    $song = $spotify->newSong($user);
+    $new_song = $spotify->getSong($song);
 
     echo json_encode($new_song);
 });

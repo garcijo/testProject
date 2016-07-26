@@ -31,8 +31,8 @@ $container['db'] = function ($c) {
 // spotify
 $container['spotify'] = function ($c) {
     $spotify = new SpotifyWebAPI\SpotifyWebAPI();
-    $session = new SpotifyWebAPI\Session('5057ad4ae2c84bd9be39b03e6e72f4dc', 
-    '850e396f29264b718937c88f376acaea', 'http://localhost:8080/home');
+    $session = new SpotifyWebAPI\Session('8591df8a71ae4cd7b6547adf9048d464', 
+    'ff05d85649d5455d8966b5897a79e86d', 'http://localhost:8080/home');
     $scopes = array();
     $session->requestCredentialsToken($scopes);
     $accessToken = $session->getAccessToken();

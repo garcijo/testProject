@@ -1,18 +1,7 @@
 <?php
 class UserMapper extends Mapper
-{
-    public function getUsers() {
-        $sql = "SELECT name, email
-            FROM user";
-        $stmt = $this->db->query($sql);
-        $results = [];
-        while($row = $stmt->fetch()) {
-            $results[] = new ComponentEntity($row);
-        }
-        return $results;
-    }
-    
-    public function loginUser($user_email,$user_pass) {
+{   
+    public function loginUser(string $user_email,string $user_pass):UserEntity {
         $email = $user_email;
         $pass = $user_pass;
         $sql = "SELECT name, email, password
@@ -22,7 +11,7 @@ class UserMapper extends Mapper
         return new UserEntity($stmt->fetch());
     }
     
-    public function searchUser($user_email) {
+    public function searchUser(string $user_email):UserEntity {
         $email = $user_email;
         $sql = "SELECT * FROM user WHERE email = :user_email";
         $stmt = $this->db->prepare($sql);
@@ -30,7 +19,7 @@ class UserMapper extends Mapper
         return new UserEntity($stmt->fetch());
     }
     
-    public function createUser($user_name, $user_email, $user_pass) {
+    public function createUser(string $user_name, string $user_email, string $user_pass) {
         $sql = "INSERT INTO user
             (name, email, password) VALUES
             (:name, :email, PASSWORD(:password))";

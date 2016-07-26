@@ -1,34 +1,20 @@
 <?php
 // Routes
 $app->get('/login', function ($request, $response, $args) {
-    // Render index view
-    return $this->renderer->render($response, 'login.phtml', $args);
+    if (isset($_SESSION['user'])) {
+        $response = $response->withRedirect("/home");
+        return $response;
+    } else {
+        return $this->renderer->render($response, 'login.phtml', $args);
+    }
 });
 
 $app->get('/home', function ($request, $response, $args) {
     // Verify if user is authenticated
     if (isset($_SESSION['user'])) {
-        $spotify = $this->spotify;
-
-        $playlist = $spotify->getRecommendations(array(
-          'limit' => 1,
-          'seed_genres' => array('indie'),
-          'market' => 'CA',
-        ));
-        $song = $playlist->tracks[0];
-        $song_name = $song->name;
-        $_SESSION['song_name'] = $song_name;
-        $artist = $song->artists[0]->name;
-        $_SESSION['artist'] = $artist;
-        $song_id =  $song->id;
-        $_SESSION['song_id'] = $song_id;
-        $song_link =  $song->preview_url;
-        $_SESSION['song_link'] = $song_link;
-        $song_img =  $song->album->images[1]->url;
-        $_SESSION['song_img'] = $song_img;
-        $song_width =  $song->album->images[1]->width;
-        $_SESSION['song_width'] = $song_width;
-        
+        $spotify = new SpotifyFeed($this->spotify);
+        $playlist = $spotify->getPlaylist();
+        $spotify->setSong($playlist);
         return $this->renderer->render($response, 'home.phtml', $args);
    } else {
         $response = $response->withRedirect("/login");
@@ -40,6 +26,7 @@ $app->get('/music', function ($request, $response, $args) {
     // Verify if user is authenticated
     if (isset($_SESSION['user'])) {
         $user = $_SESSION['user'];
+        
         $sql = "SELECT * FROM likes WHERE user=:user";
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute(["user" => $user]);
@@ -48,7 +35,7 @@ $app->get('/music', function ($request, $response, $args) {
                 $songs[] = $song;
             }
         }
-        $spotify = $this->spotify;
+        $spotify = new SpotifyFeed($this->spotify);
         $songinfo = "";
         foreach($songs as $song){
             $results = $spotify->getTrack($song[1]);
@@ -132,25 +119,9 @@ $app->post('/ajax', function($request, $response) {
         }
     }
     
-    $spotify = $this->spotify;
-    $playlist = $spotify->getRecommendations(array(
-      'limit' => 1,
-      'seed_genres' => array('indie'),
-      'market' => 'CA',
-    ));
-
-    $song = $playlist->tracks[0];
-    $song_name = $song->name;
-    $artist = $song->artists[0]->name;
-    $song_id =  $song->id;
-    $song_link =  $song->preview_url;
-    $song_img =  $song->album->images[1]->url;
-    $song_width =  $song->album->images[1]->width;
-    $new_song[0] = $song_name;
-    $new_song[1] = $artist;
-    $new_song[2] = $song_id;
-    $new_song[3] = $song_img;
-    $new_song[4] = $song_link;
+    $spotify = new SpotifyFeed($this->spotify);
+    $playlist = $spotify->getPlaylist();
+    $new_song = $spotify->getSong($playlist);
 
     echo json_encode($new_song);
 });
@@ -161,14 +132,13 @@ $app->post('/ajaxMusic', function($request, $response, $a) {
     
     $sql = "SELECT * FROM likes WHERE user=:user";
     $stmt = $this->db->prepare($sql);
-    $result = $stmt->execute([
-        "user" => $user,
-    ]);
+    $result = $stmt->execute(["user" => $user,]);
 
     while($song = $result->fetch_array()) {
         $songs[] = $song;
     }
-    $spotify = $this->spotify;
+    
+    $spotify = new SpotifyFeed($this->spotify);
     foreach($songs as $song){
         $results = $spotify->getTrack($song[1]);
         $songinfo .= "<tr><td>".$results->name."</td>
@@ -178,12 +148,7 @@ $app->post('/ajaxMusic', function($request, $response, $a) {
     echo $songinfo;
 });
 
-/**
 $app->get('/[{name}]', function ($request, $response, $args) {
-    // Sample log message
-    $this->logger->info("Slim-Skeleton '/' route");
-
-    // Render index view
-    return $this->renderer->render($response, 'index.phtml', $args);
+    $response = $response->withRedirect("/login");
+    return $response;
 });
-**/

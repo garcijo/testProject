@@ -22,6 +22,15 @@ class UserMapper extends Mapper
         return new UserEntity($stmt->fetch());
     }
     
+    public function searchUser($user_email) {
+        $email = $user_email;
+        $sql = "SELECT name, email
+            FROM user WHERE email = :user_email";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(["user_email" => $email]);
+        return new UserEntity($stmt->fetch());
+    }
+    
     public function createUser($user_name, $user_email, $user_pass) {
         $sql = "INSERT INTO user
             (name, email, password) VALUES

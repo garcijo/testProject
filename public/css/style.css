@@ -216,3 +216,9 @@ audio {
     margin: 2.5px auto 0;
     
 }
+.error {
+    color: red;
+    font-size: 14px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}

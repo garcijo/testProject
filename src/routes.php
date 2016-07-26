@@ -105,9 +105,16 @@ $app->post('/signup', function ($request, $response, $args) {
     $user_pass = filter_var($data['password'], FILTER_SANITIZE_STRING);
     // work out the component
     $user_mapper = new UserMapper($this->db);
-    $user = $user_mapper->createUser($user_name, $user_email, $user_pass);
-    $_SESSION['user'] = $user_name;
-    $response = $response->withRedirect("/home");
+    //First check the email doesn't exist yet
+    $user = $user_mapper->searchUser($user_email);
+    if(!empty($user->getName())){
+        $_SESSION['error'] = '<p class="error">That email address already exists!</p>';
+        $response = $response->withRedirect("/login");
+    } else{
+        $user = $user_mapper->createUser($user_name, $user_email, $user_pass);
+        $_SESSION['user'] = $user_name;
+        $response = $response->withRedirect("/home");
+    }
     return $response;
 });
 

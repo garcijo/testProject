@@ -1,0 +1,349 @@
+.button {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    background: none;
+    color: #286aab;
+    font-size: 1.4em;
+    overflow: visible;
+    -webkit-transition: color 0.7s;
+    transition: color 0.7s;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    border-style: solid;
+    background-color: transparent;
+    outline: none;
+    border-radius: 50%;
+    margin: 0.25em 1em;
+
+}
+
+.button.button--click,
+.button:focus {
+	outline: none;
+	color: #3c8ddc;
+}
+
+.button__icon {
+	display: block;
+}
+
+.button__text {
+	position: absolute;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.button::after {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -30px 0 0 -30px;
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	content: '';
+	opacity: 0;
+	pointer-events: none;
+}
+
+.button--box-color-1 {
+	background: #ff8b00;
+}
+
+.button--box-color-2 {
+	background: #b61854;
+}
+
+.button--box-color-3 {
+	background: #1d5cab;
+}
+
+.button--box-color-4 {
+	background: #f2438c;
+}
+
+.button--box-color-5 {
+	background: #ff6414;
+}
+
+.button--box-color-6 {
+	background: #5ed500;
+}
+
+.button--box-color-7 {
+	background: #0077ff;
+}
+
+.button--box-color-8 {
+	background: #7bff00;
+}
+
+.button--box-color-9 {
+	background: #fff;
+}
+
+/* Individual Effects */
+
+
+/* Sanja */
+.button--effect-sanja::after {
+	background: rgba(111,148,182,0.1);
+}
+
+.button--effect-sanja.button--click::after {
+	-webkit-animation: anim-effect-sanja 1s ease-out forwards;
+	animation: anim-effect-sanja 1s ease-out forwards;
+}
+
+@-webkit-keyframes anim-effect-sanja {
+	0% {
+		opacity: 1;
+		-webkit-transform: scale3d(0.5, 0.5, 1);
+		transform: scale3d(0.5, 0.5, 1);
+	}
+	25% {
+		opacity: 1;
+		-webkit-transform: scale3d(1, 1, 1);
+		transform: scale3d(1, 1, 1);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale3d(1, 1, 1);
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+@keyframes anim-effect-sanja {
+	0% {
+		opacity: 1;
+		-webkit-transform: scale3d(0.5, 0.5, 1);
+		transform: scale3d(0.5, 0.5, 1);
+	}
+	25% {
+		opacity: 1;
+		-webkit-transform: scale3d(1, 1, 1);
+		transform: scale3d(1, 1, 1);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale3d(1, 1, 1);
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+
+/* Nikola */
+.button--effect-nikola::after {
+	background: rgba(111,148,182,0.1);
+}
+
+.button--effect-nikola.button--click::after {
+	-webkit-animation: anim-effect-nikola 1.0s forwards;
+	animation: anim-effect-nikola 1.0s forwards;
+}
+
+@-webkit-keyframes anim-effect-nikola {
+	0% {
+		opacity: 0;
+		-webkit-transform: scale3d(0.2, 0.2, 1);
+		transform: scale3d(0.2, 0.2, 1);
+	}
+	50% {
+		opacity: 1;
+		-webkit-transform: scale3d(1.2, 1.2, 1);
+		transform: scale3d(1.2, 1.2, 1);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale3d(0.8, 0.8, 1);
+		transform: scale3d(0.8, 0.8, 1);
+	}
+}
+
+@keyframes anim-effect-nikola {
+	0% {
+		opacity: 0;
+		-webkit-transform: scale3d(0.2, 0.2, 1);
+		transform: scale3d(0.2, 0.2, 1);
+	}
+	50% {
+		opacity: 1;
+		-webkit-transform: scale3d(1.2, 1.2, 1);
+		transform: scale3d(1.2, 1.2, 1);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: scale3d(0.8, 0.8, 1);
+		transform: scale3d(0.8, 0.8, 1);
+	}
+}
+
+
+/* Lazar */
+.button--effect-lazar-inverted {
+	-webkit-transform: scale3d(-1, 1, 1);
+	transform: scale3d(-1, 1, 1);
+}
+.button--effect-lazar::before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -35px 0 0 0;
+	width: 35px;
+	height: 70px;
+    border-radius: 0 35px 35px 0;
+	background: rgba(111,148,182,0.15);
+	content: '';
+	opacity: 0;
+	-webkit-transform-origin: 0 50%;
+	transform-origin: 0 50%;
+	pointer-events: none;
+}
+
+.button--effect-lazar::after {
+	right: 50%;
+	left: auto;
+	margin: -35px 0 0 0;
+	width: 35px;
+	height: 70px;
+	border-radius: 35px 0 0 35px;
+	background: rgba(111,148,182,0.1);
+	-webkit-transform-origin: 100% 50%;
+	transform-origin: 100% 50%;
+}
+
+.button--effect-lazar.button--click::before {
+	-webkit-animation: anim-effect-lazar-1 0.8s ease-out forwards;
+	animation: anim-effect-lazar-1 0.8s ease-out forwards;
+}
+
+.button--effect-lazar.button--click::after {
+	-webkit-animation: anim-effect-lazar-2 0.8s ease-out forwards;
+	animation: anim-effect-lazar-2 0.8s ease-out forwards;
+}
+
+@-webkit-keyframes anim-effect-lazar-1 {
+	0%, 25% {
+		opacity: 1;
+		-webkit-transform: perspective(1000px) rotate3d(0, 1, 0, 0deg);
+		transform: perspective(1000px) rotate3d(0, 1, 0, 0deg);
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: perspective(1000px) rotate3d(0, 1, 0, 180deg);
+		transform: perspective(1000px) rotate3d(0, 1, 0, 180deg);
+	}
+}
+
+@keyframes anim-effect-lazar-1 {
+	0%, 25% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		-webkit-transform: perspective(1000px) rotate3d(0, 1, 0, 180deg);
+		transform: perspective(1000px) rotate3d(0, 1, 0, 180deg);
+	}
+}
+
+@-webkit-keyframes anim-effect-lazar-2 {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes anim-effect-lazar-2 {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+/* Jagoda */
+.button--effect-jagoda::before {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -25px 0 0 -25px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	content: '';
+	opacity: 0;
+	pointer-events: none;
+}
+
+.button--effect-jagoda::after {
+	margin: -25px 0 0 -25px;
+	width: 50px;
+	height: 50px;
+}
+
+.button--effect-jagoda::before,
+.button--effect-jagoda::after {
+	box-shadow: 0 0 0 2px rgba(111,148,182,0.5);
+}
+
+.button--effect-jagoda.button--click::before,
+.button--effect-jagoda.button--click::after {
+	-webkit-animation-name: anim-effect-jagoda-2, anim-effect-jagoda-1;
+	animation-name:anim-effect-jagoda-2, anim-effect-jagoda-1;
+	-webkit-animation-duration: 1.2s;
+	animation-duration: 1.2s;
+	-webkit-animation-iteration-count: 5;
+	animation-iteration-count: 5;
+	-webkit-animation-timing-function: ease-out;
+	animation-timing-function: ease-out;
+	-webkit-animation-fill-mode: forwards;
+	animation-fill-mode: forwards;
+}
+
+.button--effect-jagoda.button--click::after {
+	-webkit-animation-delay: 0.6s;
+	animation-delay: 0.6s;
+}
+
+@-webkit-keyframes anim-effect-jagoda-1 {
+	0%, 100% {
+		opacity: 0;
+	}
+	40%, 60% {
+		opacity: 1;
+	}
+}
+
+@keyframes anim-effect-jagoda-1 {
+	0%, 100% {
+		opacity: 0;
+	}
+	40%, 60% {
+		opacity: 1;
+	}
+}
+
+@-webkit-keyframes anim-effect-jagoda-2 {
+	0% {
+		-webkit-transform: scale3d(0.5, 0.5, 1);
+		transform: scale3d(0.5, 0.5, 1);
+	}
+	100% {
+		-webkit-transform: scale3d(1.4, 1.4, 1);
+		transform: scale3d(1.4, 1.4, 1);
+	}
+}
+
+@keyframes anim-effect-jagoda-2 {
+	0% {
+		-webkit-transform: scale3d(0.5, 0.5, 1);
+		transform: scale3d(0.5, 0.5, 1);
+	}
+	100% {
+		-webkit-transform: scale3d(1.4, 1.4, 1);
+		transform: scale3d(1.4, 1.4, 1);
+	}
+}

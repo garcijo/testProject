@@ -1,7 +1,12 @@
 <?php
 class SpotifyFeed extends Feed
 {
-    //Looks up a new song through Spotify's api
+    /**
+     * Accept a valid username
+     * and obtain a song recommendation from Spotify's API
+     *
+     * @param string $user The current user's username
+     */
     public function newSong(string $user) {
         do {
             $playlist = $this->spotify->getRecommendations(array(
@@ -17,6 +22,13 @@ class SpotifyFeed extends Feed
         return $song;
     }
     
+    /**
+     * Accept a valid username and a specific song's id
+     * and verify that the song is not already saved by the user
+     *
+     * @param string $song_id The Spotify song id code
+     * @param string $user The current user's username
+     */
     private function verifySong(string $song_id, string $user){
         $sql = "SELECT * FROM likes WHERE user =:user AND songId =:song_id";
         $stmt = $this->db->prepare($sql);
@@ -28,7 +40,11 @@ class SpotifyFeed extends Feed
         }
     }
     
-    //
+    /**
+     * Accept a song object and post its values
+     *
+     * @param object $song The current song
+     */
     public function setSong($song) {
         $song_id =  $song->id;
         $_POST['song_id'] = $song_id;
@@ -44,6 +60,11 @@ class SpotifyFeed extends Feed
         $_POST['song_width'] = $song_width;
     }
     
+    /**
+     * Accept a song object and return its values as an array
+     *
+     * @param object $song The current song
+     */
     public function getSong($song):array {
         $song_name = $song->name;
         $artist = $song->artists[0]->name;

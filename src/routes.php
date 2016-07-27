@@ -1,6 +1,9 @@
 <?php
 // Routes
+
+//login & registration page
 $app->get('/login', function ($request, $response, $args) {
+    // Verify if user is authenticated. If true, redirect to home
     if (isset($_SESSION['user'])) {
         $response = $response->withRedirect("/home");
         return $response;
@@ -10,7 +13,7 @@ $app->get('/login', function ($request, $response, $args) {
 });
 
 $app->get('/home', function ($request, $response, $args) {
-    // Verify if user is authenticated
+    // Verify if user is authenticated. If false, redirect to login
     if (isset($_SESSION['user'])) {
         $user = $_SESSION['user'];
         $spotify = new SpotifyFeed($this->spotify,$this->db);
@@ -24,7 +27,7 @@ $app->get('/home', function ($request, $response, $args) {
 });
 
 $app->get('/music', function ($request, $response, $args) {
-    // Verify if user is authenticated
+    // Verify if user is authenticated. If false, redirect to login
     if (isset($_SESSION['user'])) {
         $user = $_SESSION['user'];
         
@@ -58,14 +61,25 @@ $app->post('/signin', function ($request, $response, $args) {
     $user_data = [];
     $user_email = filter_var($data['email'], FILTER_SANITIZE_STRING);
     $user_pass = filter_var($data['password'], FILTER_SANITIZE_STRING);
-    // work out the component
-    $user_mapper = new UserMapper($this->db);
-    $user = $user_mapper->loginUser($user_email, $user_pass);
-    $user_name = $user->getName();
-    $_SESSION['user'] = $user_name;
-        
-    $response = $response->withRedirect("/home");
-    return $response;
+    
+    if(empty($user_email)||empty($user_pass)){
+        $_POST['error'] = '<p class="error">Incorrect login!</p>';
+        return $this->renderer->render($response, 'login.phtml', $args);
+    }
+    else {
+        $user_mapper = new UserMapper($this->db);
+        $user = $user_mapper->loginUser($user_email, $user_pass);
+        $user_name = $user->getName();
+        if(empty($user_name)){
+            $_POST['error'] = '<p class="error">Incorrect login!</p>';
+            return $this->renderer->render($response, 'login.phtml', $args);
+        } else {
+            $_SESSION['user'] = $user_name;
+
+            $response = $response->withRedirect("/home");
+            return $response;
+        }
+    }
 });
 
 $app->get('/logout', function ($request, $response, $args) {

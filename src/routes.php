@@ -31,15 +31,10 @@ $app->get('/music', function ($request, $response, $args) {
     if (isset($_SESSION['user'])) {
         $user = $_SESSION['user'];
         
-        $sql = "SELECT * FROM likes WHERE user=:user";
-        $stmt = $this->db->prepare($sql);
-        $result = $stmt->execute(["user" => $user]);
-        if($result) {
-            while($song = $stmt->fetch(PDO::FETCH_NUM)) {
-                $songs[] = $song;
-            }
-        }
         $spotify = new SpotifyFeed($this->spotify,$this->db);
+        $songs = array();
+        $songs = $spotify->getMusic($user);
+        
         $songinfo = "";
         foreach($songs as $song){
             $results = $this->spotify->getTrack($song[1]);
@@ -145,15 +140,10 @@ $app->post('/ajaxMusic', function($request, $response, $a) {
     $data = $request->getParsedBody();
     $user = filter_var($data['user'], FILTER_SANITIZE_STRING);
     
-    $sql = "SELECT * FROM likes WHERE user=:user";
-    $stmt = $this->db->prepare($sql);
-    $result = $stmt->execute(["user" => $user,]);
-
-    while($song = $result->fetch_array()) {
-        $songs[] = $song;
-    }
-    
     $spotify = new SpotifyFeed($this->spotify,$this->db);
+    $songs = array();
+    $songs = $spotify->getMusic($user);
+    
     foreach($songs as $song){
         $results = $this->spotify->getTrack($song[1]);
         $songinfo .= "<tr><td>".$results->name."</td>

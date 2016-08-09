@@ -41,6 +41,23 @@ class SpotifyFeed extends Feed
     }
     
     /**
+     * Accept a valid username and return all the liked songs
+     *
+     * @param string $user The current user's username
+     */
+    public function getMusic(string $user):array{
+        $sql = "SELECT * FROM likes WHERE user=:user";
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute(["user" => $user]);
+        if($result) {
+            while($song = $stmt->fetch(PDO::FETCH_NUM)) {
+                $songs[] = $song;
+            }
+        }
+        return $songs;
+    }
+    
+    /**
      * Accept a song object and post its values
      *
      * @param object $song The current song

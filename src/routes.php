@@ -116,20 +116,10 @@ $app->post('/ajax', function($request, $response) {
     $song_id = filter_var($data['id'], FILTER_SANITIZE_STRING);
     $user = filter_var($data['user'], FILTER_SANITIZE_STRING);
     
-    if($action == 'like'){
-        $sql = "INSERT INTO likes(user, songId) VALUES
-            (:user, :songId)";
-        $stmt = $this->db->prepare($sql);
-        $result = $stmt->execute([
-            "user" => $user,
-            "songId" => $song_id,
-        ]);
-        if(!$result) {
-            throw new Exception("Could not save song!");
-        }
-    }
-    
     $spotify = new SpotifyFeed($this->spotify,$this->db);
+    if($action == 'like'){
+        $spotify->saveSong($song_id, $user);
+    }
     $song = $spotify->newSong($user);
     $new_song = $spotify->getSong($song);
 

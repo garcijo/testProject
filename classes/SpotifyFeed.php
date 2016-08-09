@@ -41,6 +41,23 @@ class SpotifyFeed extends Feed
     }
     
     /**
+     * Accept a valid username and a specific song's id
+     * and save it into the user's liked songs list
+     *
+     * @param string $song_id The Spotify song id code
+     * @param string $user The current user's username
+     */
+    public function saveSong(string $song_id, string $user){
+        $sql = "INSERT INTO likes(user, songId) VALUES
+            (:user, :songId)";
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute(["user" => $user,  "songId" => $song_id,]);
+        if(!$result) {
+            throw new Exception("Could not save song!");
+        }
+    }
+    
+    /**
      * Accept a valid username and return all the liked songs
      *
      * @param string $user The current user's username

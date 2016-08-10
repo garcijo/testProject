@@ -38,8 +38,11 @@ $app->get('/music', function ($request, $response, $args) {
         $songinfo = "";
         foreach($songs as $song){
             $results = $this->spotify->getTrack($song[1]);
-            $songinfo .= "<tr><td>".$results->name."</td>
-                <td>".$results->artists[0]->name."</td><td>".$results->album->name."</td></tr>";
+            $songinfo .= "<tr id=\"".$results->preview_url."\"><td style=\"width:125px;\"><center>
+            <img src=\"".$results->album->images[0]->url."\" style=\"width:75px;height:75px;\"></center></td>
+            <td>".$results->name."</td><td>".$results->artists[0]->name."</td><td>".$results->album->name."</td>
+            <audio id=\"song\"><source id=\"song_link\" src=\"".$results->preview_url."\"; ?>.mp3\" type=\"audio/mp3\">
+            </audio></tr>";
         }
 
         $_SESSION['songinfo'] = $songinfo;
@@ -136,7 +139,8 @@ $app->post('/ajaxMusic', function($request, $response, $a) {
     
     foreach($songs as $song){
         $results = $this->spotify->getTrack($song[1]);
-        $songinfo .= "<tr><td>".$results->name."</td>
+        $songinfo .= "<tr><td style=\"width:125px;\"><center>
+            <img src=\"".$results->images[0]->url."\" style=\"width:75px;height:75px;\"></center></td><td>".$results->name."</td>
             <td>".$results->artists[0]->name."</td><td>".$results->album->name."</td></tr>";
     }
 

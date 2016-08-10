@@ -32,17 +32,12 @@ $app->get('/music', function ($request, $response, $args) {
         $user = $_SESSION['user'];
         
         $spotify = new SpotifyFeed($this->spotify,$this->db);
-        $songs = array();
         $songs = $spotify->getMusic($user);
         
         $songinfo = "";
         foreach($songs as $song){
             $results = $this->spotify->getTrack($song[1]);
-            $songinfo .= "<tr id=\"".$results->preview_url."\"><td style=\"width:125px;\"><center>
-            <img src=\"".$results->album->images[0]->url."\" style=\"width:75px;height:75px;\"></center></td>
-            <td>".$results->name."</td><td>".$results->artists[0]->name."</td><td>".$results->album->name."</td>
-            <audio id=\"song\"><source id=\"song_link\" src=\"".$results->preview_url."\"; ?>.mp3\" type=\"audio/mp3\">
-            </audio></tr>";
+            $songinfo .= $spotify->createTable($results);
         }
 
         $_SESSION['songinfo'] = $songinfo;
@@ -91,6 +86,7 @@ $app->get('/signup', function ($request, $response, $args) {
     $response = $response->withRedirect("/login");
     return $response;
 });
+
 $app->post('/signup', function ($request, $response, $args) {
     $data = $request->getParsedBody();
     $user_data = [];
@@ -134,14 +130,11 @@ $app->post('/ajaxMusic', function($request, $response, $a) {
     $user = filter_var($data['user'], FILTER_SANITIZE_STRING);
     
     $spotify = new SpotifyFeed($this->spotify,$this->db);
-    $songs = array();
     $songs = $spotify->getMusic($user);
     
     foreach($songs as $song){
         $results = $this->spotify->getTrack($song[1]);
-        $songinfo .= "<tr><td style=\"width:125px;\"><center>
-            <img src=\"".$results->images[0]->url."\" style=\"width:75px;height:75px;\"></center></td><td>".$results->name."</td>
-            <td>".$results->artists[0]->name."</td><td>".$results->album->name."</td></tr>";
+        $songinfo .= $spotify->createTable($results);
     }
 
     echo $songinfo;

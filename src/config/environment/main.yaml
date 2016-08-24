@@ -1,0 +1,16 @@
+settings:
+  displayErrorDetails: true
+  addContentLengthHeader: false
+  determineRouteBeforeAppMiddleware: true
+renderer:
+  template_path: __DIR__ . '/../../templates/'
+logger:
+  name: slim-app
+  path: __DIR__ . '/../../logs/app.log'
+db:
+  dbType: mysql
+  host: localhost
+  dbName: test
+  charset: utf8
+  username: vagrant
+  password: vagrant

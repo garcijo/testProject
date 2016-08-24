@@ -1,6 +1,7 @@
 <?php
 
-namespace Domain\UserMapper;
+
+
 
 class UserMapper extends Mapper
 {   

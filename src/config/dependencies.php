@@ -1,10 +1,16 @@
 <?php
 
+use Monolog\Logger;
+use Monolog\Processor\UidProcessor;
+use Monolog\Handler\StreamHandler;
+use Slim\Views\PhpRenderer;
+use Slim\Container;
 use Domain\SpotifyFeed;
 use Domain\Feed;
 use Domain\Mapper;
-use Domain\UserEntity;
-use Domain\UserMapper;
+use SpotifyWebAPI\SpotifyWebAPI;
+use SpotifyWebAPI\Session;
+use Symfony\Component\Yaml\Yaml;
 
 // DIC configuration
 
@@ -13,15 +19,15 @@ $container = $app->getContainer();
 // view renderer
 $container['renderer'] = function ($c) {
     $settings = $c->get('settings')['renderer'];
-    return new Slim\Views\PhpRenderer($settings['template_path']);
+    return new PhpRenderer($settings['template_path']);
 };
 
 // monolog
 $container['logger'] = function ($c) {
     $settings = $c->get('settings')['logger'];
-    $logger = new Monolog\Logger($settings['name']);
-    $logger->pushProcessor(new Monolog\Processor\UidProcessor());
-    $logger->pushHandler(new Monolog\Handler\StreamHandler($settings['path'], Monolog\Logger::DEBUG));
+    $logger = new Logger($settings['name']);
+    $logger->pushProcessor(new UidProcessor());
+    $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
     return $logger;
 };
 
@@ -37,8 +43,8 @@ $container['db'] = function ($c) {
 
 // spotify
 $container['spotify'] = function ($c) {
-    $spotify = new SpotifyWebAPI\SpotifyWebAPI();
-    $session = new SpotifyWebAPI\Session('8591df8a71ae4cd7b6547adf9048d464', 
+    $spotify = new SpotifyWebAPI();
+    $session = new Session('8591df8a71ae4cd7b6547adf9048d464',
     'ff05d85649d5455d8966b5897a79e86d', 'http://localhost:8080/home');
     $scopes = array();
     $session->requestCredentialsToken($scopes);

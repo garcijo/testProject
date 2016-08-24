@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Mapper;
+
 
 abstract class Mapper
 {

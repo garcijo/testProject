@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\SpotifyFeed;
+
 
 class SpotifyFeed extends Feed
 {

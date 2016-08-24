@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\Feed;
+
 
 abstract class Feed
 {

@@ -32,14 +32,12 @@ $app->get('/music', function ($request, $response, $args) {
         $user = $_SESSION['user'];
         
         $spotify = new SpotifyFeed($this->spotify,$this->db);
-        $songs = array();
         $songs = $spotify->getMusic($user);
         
         $songinfo = "";
         foreach($songs as $song){
             $results = $this->spotify->getTrack($song[1]);
-            $songinfo .= "<tr><td>".$results->name."</td>
-                <td>".$results->artists[0]->name."</td><td>".$results->album->name."</td></tr>";
+            $songinfo .= $spotify->createTable($results);
         }
 
         $_SESSION['songinfo'] = $songinfo;
@@ -88,6 +86,7 @@ $app->get('/signup', function ($request, $response, $args) {
     $response = $response->withRedirect("/login");
     return $response;
 });
+
 $app->post('/signup', function ($request, $response, $args) {
     $data = $request->getParsedBody();
     $user_data = [];
@@ -116,20 +115,10 @@ $app->post('/ajax', function($request, $response) {
     $song_id = filter_var($data['id'], FILTER_SANITIZE_STRING);
     $user = filter_var($data['user'], FILTER_SANITIZE_STRING);
     
-    if($action == 'like'){
-        $sql = "INSERT INTO likes(user, songId) VALUES
-            (:user, :songId)";
-        $stmt = $this->db->prepare($sql);
-        $result = $stmt->execute([
-            "user" => $user,
-            "songId" => $song_id,
-        ]);
-        if(!$result) {
-            throw new Exception("Could not save song!");
-        }
-    }
-    
     $spotify = new SpotifyFeed($this->spotify,$this->db);
+    if($action == 'like'){
+        $spotify->saveSong($song_id, $user);
+    }
     $song = $spotify->newSong($user);
     $new_song = $spotify->getSong($song);
 
@@ -141,13 +130,11 @@ $app->post('/ajaxMusic', function($request, $response, $a) {
     $user = filter_var($data['user'], FILTER_SANITIZE_STRING);
     
     $spotify = new SpotifyFeed($this->spotify,$this->db);
-    $songs = array();
     $songs = $spotify->getMusic($user);
     
     foreach($songs as $song){
         $results = $this->spotify->getTrack($song[1]);
-        $songinfo .= "<tr><td>".$results->name."</td>
-            <td>".$results->artists[0]->name."</td><td>".$results->album->name."</td></tr>";
+        $songinfo .= $spotify->createTable($results);
     }
 
     echo $songinfo;

@@ -60,6 +60,7 @@ $songinfo = $_SESSION['songinfo'];
         <table name="music" id="music" class="tablesorter">
           <thead class="fixedHeader">
             <tr>
+              <th class="header" style="width: 155px; cursor:default;">&nbsp;</th>
               <th class="header">Song</th>
               <th class="header">Artist</th> 
               <th class="header">Album</th>
@@ -71,4 +72,34 @@ $songinfo = $_SESSION['songinfo'];
         </table>
         </div>
     </body>
+    <script>
+    $(document).ready(function() {
+        var saved = "";
+        var audio = $("#song")[0];
+        $('tr').click(function() {
+            if(audio.paused){
+                var source = $(this).attr('id');
+                $("#song_link").attr("src",source+".mp3");
+                audio.load();
+                audio.play();
+                saved = $("#song_link").attr('src');
+            } else {
+                audio.pause();
+                if( saved !== ($(this).attr('id')+".mp3") ){
+                    var source = $(this).attr('id');
+                    $("#song_link").attr("src",source+".mp3");
+                    audio.load();
+                    audio.play();
+                    saved = $("#song_link").attr('src');
+                }
+            }
+        });
+        
+        var form = document.getElementById("musicreg");
+
+        document.getElementById("repeat").addEventListener("click", function () {
+          form.submit();
+        });
+    });
+    </script>
 </html>

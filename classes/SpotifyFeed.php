@@ -41,6 +41,23 @@ class SpotifyFeed extends Feed
     }
     
     /**
+     * Accept a valid username and a specific song's id
+     * and save it into the user's liked songs list
+     *
+     * @param string $song_id The Spotify song id code
+     * @param string $user The current user's username
+     */
+    public function saveSong(string $song_id, string $user){
+        $sql = "INSERT INTO likes(user, songId) VALUES
+            (:user, :songId)";
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute(["user" => $user,  "songId" => $song_id,]);
+        if(!$result) {
+            throw new Exception("Could not save song!");
+        }
+    }
+    
+    /**
      * Accept a valid username and return all the liked songs
      *
      * @param string $user The current user's username
@@ -96,5 +113,20 @@ class SpotifyFeed extends Feed
         $new_song[4] = $song_link;
         
         return $new_song;
+    }
+    
+     /**
+     * Accept a song object and return a string with the html table code to display it
+     *
+     * @param object $song The current song
+     */
+    public function createTable($song):string {
+        $songinfo = "<tr id=\"".$song->preview_url."\"><td style=\"width:125px;\"><center>
+        <img src=\"".$song->album->images[0]->url."\" style=\"width:75px;height:75px;\"></center></td>
+        <td>".$song->name."</td><td>".$song->artists[0]->name."</td><td>".$song->album->name."</td>
+        <audio id=\"song\"><source id=\"song_link\" src=\"".$song->preview_url."\"; ?>.mp3\" type=\"audio/mp3\">
+        </audio></tr>";
+        
+        return $songinfo;
     }
 }

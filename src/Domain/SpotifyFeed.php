@@ -1,4 +1,7 @@
 <?php
+
+namespace Domain\SpotifyFeed;
+
 class SpotifyFeed extends Feed
 {
     /**
@@ -7,7 +10,8 @@ class SpotifyFeed extends Feed
      *
      * @param string $user The current user's username
      */
-    public function newSong(string $user) {
+    public function newSong(string $user)
+    {
         do {
             $playlist = $this->spotify->getRecommendations(array(
               'limit' => 1,
@@ -29,11 +33,12 @@ class SpotifyFeed extends Feed
      * @param string $song_id The Spotify song id code
      * @param string $user The current user's username
      */
-    private function verifySong(string $song_id, string $user){
-        $sql = "SELECT * FROM likes WHERE user =:user AND songId =:song_id";
+    private function verifySong(string $song_id, string $user)
+    {
+        $sql = 'SELECT * FROM likes WHERE user =:user AND songId =:song_id';
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(["user" => $user, "song_id" => $song_id,]);
-        if(!empty($stmt->fetch())){
+        $stmt->execute(['user' => $user, 'song_id' => $song_id,]);
+        if (!empty($stmt->fetch())){
             $exists = true;
         } else {
             $exists = false;
@@ -47,13 +52,14 @@ class SpotifyFeed extends Feed
      * @param string $song_id The Spotify song id code
      * @param string $user The current user's username
      */
-    public function saveSong(string $song_id, string $user){
-        $sql = "INSERT INTO likes(user, songId) VALUES
-            (:user, :songId)";
+    public function saveSong(string $song_id, string $user)
+    {
+        $sql = 'INSERT INTO likes(user, songId) VALUES
+            (:user, :songId)';
         $stmt = $this->db->prepare($sql);
-        $result = $stmt->execute(["user" => $user,  "songId" => $song_id,]);
-        if(!$result) {
-            throw new Exception("Could not save song!");
+        $result = $stmt->execute(['user' => $user,  'songId' => $song_id,]);
+        if (!$result) {
+            throw new Exception('Could not save song!');
         }
     }
     
@@ -62,11 +68,12 @@ class SpotifyFeed extends Feed
      *
      * @param string $user The current user's username
      */
-    public function getMusic(string $user):array{
-        $sql = "SELECT * FROM likes WHERE user=:user";
+    public function getMusic(string $user):array
+    {
+        $sql = 'SELECT * FROM likes WHERE user=:user';
         $stmt = $this->db->prepare($sql);
-        $result = $stmt->execute(["user" => $user]);
-        if($result) {
+        $result = $stmt->execute(['user' => $user]);
+        if ($result) {
             while($song = $stmt->fetch(PDO::FETCH_NUM)) {
                 $songs[] = $song;
             }
@@ -79,7 +86,8 @@ class SpotifyFeed extends Feed
      *
      * @param object $song The current song
      */
-    public function setSong($song) {
+    public function setSong($song)
+    {
         $song_id =  $song->id;
         $_POST['song_id'] = $song_id;
         $song_name = $song->name;
@@ -99,7 +107,8 @@ class SpotifyFeed extends Feed
      *
      * @param object $song The current song
      */
-    public function getSong($song):array {
+    public function getSong($song):array
+    {
         $song_name = $song->name;
         $artist = $song->artists[0]->name;
         $song_id =  $song->id;
@@ -120,12 +129,13 @@ class SpotifyFeed extends Feed
      *
      * @param object $song The current song
      */
-    public function createTable($song):string {
-        $songinfo = "<tr id=\"".$song->preview_url."\"><td style=\"width:125px;\"><center>
-        <img src=\"".$song->album->images[0]->url."\" style=\"width:75px;height:75px;\"></center></td>
-        <td>".$song->name."</td><td>".$song->artists[0]->name."</td><td>".$song->album->name."</td>
-        <audio id=\"song\"><source id=\"song_link\" src=\"".$song->preview_url."\"; ?>.mp3\" type=\"audio/mp3\">
-        </audio></tr>";
+    public function createTable($song):string
+    {
+        $songinfo = '<tr id=\''.$song->preview_url.'\'><td style=\'width:125px;\'><center>
+        <img src=\''.$song->album->images[0]->url.'\' style=\'width:75px;height:75px;\'></center></td>
+        <td>'.$song->name.'</td><td>'.$song->artists[0]->name.'</td><td>'.$song->album->name.'</td>
+        <audio id=\'song\'><source id=\'song_link\' src=\''.$song->preview_url.'\'; ?>.mp3\' type=\'audio/mp3\'>
+        </audio></tr>';
         
         return $songinfo;
     }

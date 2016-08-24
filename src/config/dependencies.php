@@ -1,4 +1,11 @@
 <?php
+
+use Domain\SpotifyFeed;
+use Domain\Feed;
+use Domain\Mapper;
+use Domain\UserEntity;
+use Domain\UserMapper;
+
 // DIC configuration
 
 $container = $app->getContainer();

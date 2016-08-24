@@ -1,6 +1,10 @@
 # Slim + PHP 7 Sample Application
 
-This is a sample application built with the Slim framework and PHP 7.
+This is a sample application built with the Slim framework and PHP 7. 
+
+After a user registers or logs in, a 30 second preview of a song will be played. 
+Users can either like or dislike songs. Songs that have been liked by a user will be displayed
+on a table in the Music tab.
 
 # Installation:
 1. In src/settings.php change the MySQL connection settings according to your configuration. For this project, the database used is called 'test', the user 'root', and the password 'password'.

@@ -1,4 +1,7 @@
 <?php
+
+namespace Domain\UserEntity;
+
 class UserEntity
 {
     protected $email;
@@ -11,21 +14,25 @@ class UserEntity
      *
      * @param array $data The data to use to create
      */
-    public function __construct(array $data) {
+    public function __construct(array $data)
+    {
         $this->email = $data['email'];
         $this->name = $data['name'];
         $this->password = $data['password'];
     }
     
-    public function getEmail() {
+    public function getEmail()
+    {
         return $this->email;
     }
     
-    public function getName() {
+    public function getName()
+    {
         return $this->name;
     }
     
-    public function getPass() {
+    public function getPass()
+    {
         return $this->password;
     }
 }

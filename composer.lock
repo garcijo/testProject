@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a0ead9763f96ac2592955d8e307c9617",
-    "content-hash": "61cc9f192aa54cba8f872d99c6fb7544",
+    "hash": "ef191252f76e6f1359144de698bef2ca",
+    "content-hash": "ea0c8bd116a63628a8b96a527660fb55",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -829,16 +829,16 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "3.2.4",
+            "version": "3.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "4e83390f64e7ce04fcaec2ce95cd72823b431d19"
+                "reference": "8f444748e174e49d5bd2bd7a9bebbf44edbb55fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/4e83390f64e7ce04fcaec2ce95cd72823b431d19",
-                "reference": "4e83390f64e7ce04fcaec2ce95cd72823b431d19",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/8f444748e174e49d5bd2bd7a9bebbf44edbb55fb",
+                "reference": "8f444748e174e49d5bd2bd7a9bebbf44edbb55fb",
                 "shasum": ""
             },
             "require": {
@@ -884,7 +884,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2016-08-17 09:33:51"
+            "time": "2016-08-24 16:58:26"
         },
         {
             "name": "pimple/pimple",
@@ -1532,6 +1532,52 @@
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
             "homepage": "https://github.com/sebastianbergmann/version",
             "time": "2016-02-04 12:56:52"
+        },
+        {
+            "name": "slim/pdo",
+            "version": "1.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/FaaPz/Slim-PDO.git",
+                "reference": "9424e6d5f3737a71722ab1f868c1d3090b63287d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/FaaPz/Slim-PDO/zipball/9424e6d5f3737a71722ab1f868c1d3090b63287d",
+                "reference": "9424e6d5f3737a71722ab1f868c1d3090b63287d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Slim\\PDO\\": "src/PDO/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabian de Laender",
+                    "email": "fabian@faapz.nl",
+                    "homepage": "http://faapz.nl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PDO database library for Slim Framework",
+            "homepage": "https://github.com/FaaPz/Slim-PDO",
+            "keywords": [
+                "database",
+                "framework",
+                "pdo",
+                "slim"
+            ],
+            "time": "2016-08-14 11:42:49"
         },
         {
             "name": "slim/php-view",

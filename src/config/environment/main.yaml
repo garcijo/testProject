@@ -3,10 +3,10 @@ settings:
   addContentLengthHeader: false
   determineRouteBeforeAppMiddleware: true
 renderer:
-  template_path: __DIR__ . '/../../templates/'
+  template_path: '../templates/'
 logger:
   name: slim-app
-  path: __DIR__ . '/../../logs/app.log'
+  path: '../logs/app.log'
 db:
   dbType: mysql
   host: localhost
@@ -14,3 +14,7 @@ db:
   charset: utf8
   username: vagrant
   password: vagrant
+spotify:
+  clientId: '8591df8a71ae4cd7b6547adf9048d464'
+  secretId: 'ff05d85649d5455d8966b5897a79e86d'
+  redirectUri: 'http://test1.loc/home'

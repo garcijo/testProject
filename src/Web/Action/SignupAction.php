@@ -37,11 +37,13 @@ class SignupAction
         $user = $user_mapper->searchUser($user_email);
         if (!empty($user->getName())) {
             $_POST['error'] = '<p class="error">That email address already exists!</p>';
+
             return $this->renderer->render($response, 'login.phtml', $args);
         } else {
             $user = $user_mapper->createUser($user_name, $user_email, $user_pass);
             $_SESSION['user'] = $user_name;
-            $response = $response->withRedirect("/home");
+            $response = $response->withRedirect('/home');
+
             return $response;
         }
     }

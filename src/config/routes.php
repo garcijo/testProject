@@ -20,6 +20,7 @@ $app->post('/ajax', NewMusicAction::class);
 $app->post('/ajaxMusic', MusicAction::class);
 
 $app->get('/[{name}]', function ($request, $response, $args) {
-    $response = $response->withRedirect("/login");
+    $response = $response->withRedirect('/login');
+
     return $response;
 });

@@ -22,7 +22,7 @@ use Web\Action\MusicAction;
 $container = $app->getContainer();
 
 $container['config'] = function () {
-    $configPath = __DIR__ . '/environment/main.yaml';
+    $configPath = __DIR__.'/environment/main.yaml';
 
     if (!file_exists($configPath)) {
         throw new Exception('Config file main.yaml does not exists.');
@@ -40,6 +40,7 @@ $container['renderer'] = function ($c) {
     $settings = $c->get('config');
     $settings = $settings['renderer'];
     $renderer = new PhpRenderer($settings['template_path']);
+
     return $renderer;
 };
 
@@ -50,6 +51,7 @@ $container['logger'] = function ($c) {
     $logger = new Logger($settings['name']);
     $logger->pushProcessor(new UidProcessor());
     $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
+
     return $logger;
 };
 
@@ -71,6 +73,7 @@ $container['spotify'] = function (ContainerInterface $container) {
     $session->requestCredentialsToken($scopes);
     $accessToken = $session->getAccessToken();
     $spotify->setAccessToken($accessToken);
+
     return $spotify;
 };
 
@@ -112,6 +115,7 @@ $container[MusicPageAction::class] = function (ContainerInterface $container) {
         $container->get('db')
     );
 };
+
 $container[MusicAction::class] = function (ContainerInterface $container) {
     return new MusicAction(
         $container->get('renderer'),

@@ -33,6 +33,7 @@ class LoginAction
 
         if (empty($user_email) || empty($user_pass)) {
             $_POST['error'] = '<p class="error">Incorrect login!</p>';
+
             return $this->renderer->render($response, 'login.phtml', $args);
         } else {
             $user_mapper = new UserMapper($this->db);
@@ -40,11 +41,13 @@ class LoginAction
             $user_name = $user->getName();
             if (empty($user_name)) {
                 $_POST['error'] = '<p class="error">Incorrect login!</p>';
+
                 return $this->renderer->render($response, 'login.phtml', $args);
             } else {
                 $_SESSION['user'] = $user_name;
 
                 $response = $response->withRedirect('/home');
+
                 return $response;
             }
         }

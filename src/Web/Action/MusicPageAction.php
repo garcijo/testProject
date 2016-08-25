@@ -37,16 +37,18 @@ class MusicPageAction
             $spotify = new SpotifyFeed($this->spotify, $this->db);
             $songs = $spotify->getMusic($user);
 
-            $songinfo = "";
+            $songinfo = '';
             foreach ($songs as $song) {
                 $results = $this->spotify->getTrack($song['songId']);
                 $songinfo .= $spotify->createTable($results);
             }
 
             $_SESSION['songinfo'] = $songinfo;
+
             return $this->renderer->render($response, 'music.phtml', $args);
         } else {
-            $response = $response->withRedirect("/login");
+            $response = $response->withRedirect('/login');
+
             return $response;
         }
     }

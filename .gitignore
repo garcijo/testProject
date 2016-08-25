@@ -1,3 +1,5 @@
 /vendor/
+.vagrant
+.idea
 /logs/*
 !/logs/README.md

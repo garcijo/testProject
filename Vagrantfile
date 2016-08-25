@@ -4,6 +4,9 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
+
+afterScriptPath = File.expand_path("./scripts/customize.sh")
+
 $script = <<SCRIPT
   echo I am provisioning...
   date > vagrant_provisioned_at
@@ -24,4 +27,7 @@ Vagrant.configure(2) do |config|
   config.hostmanager.aliases = 'test1.loc'
   config.vm.synced_folder ".", "/vagrant", owner: "www-data", group: "www-data", mount_options: ['dmode=777']
   config.vm.provision "shell", inline: $script
+  if File.exists? afterScriptPath then
+  		config.vm.provision "shell", path: afterScriptPath
+  	end
 end

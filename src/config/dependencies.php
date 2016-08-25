@@ -9,6 +9,14 @@ use Slim\PDO\Database;
 use SpotifyWebAPI\SpotifyWebAPI;
 use SpotifyWebAPI\Session;
 use Symfony\Component\Yaml\Yaml;
+use Web\Action\LoginAction;
+use Web\Action\LoginPageAction;
+use Web\Action\HomePageAction;
+use Web\Action\MusicPageAction;
+use Web\Action\LogoutAction;
+use Web\Action\SignupAction;
+use Web\Action\NewMusicAction;
+use Web\Action\MusicAction;
 
 // DIC configuration
 $container = $app->getContainer();
@@ -66,3 +74,63 @@ $container['spotify'] = function (ContainerInterface $container) {
     return $spotify;
 };
 
+// Login page
+$container[LoginPageAction::class] = function (ContainerInterface $container) {
+    return new LoginPageAction(
+        $container->get('renderer')
+    );
+};
+
+$container[LoginAction::class] = function (ContainerInterface $container) {
+    return new LoginAction(
+        $container->get('renderer'),
+        $container->get('db')
+    );
+};
+
+// Home page
+$container[HomePageAction::class] = function (ContainerInterface $container) {
+    return new HomePageAction(
+        $container->get('renderer'),
+        $container->get('spotify'),
+        $container->get('db')
+    );
+};
+$container[NewMusicAction::class] = function (ContainerInterface $container) {
+    return new NewMusicAction(
+        $container->get('renderer'),
+        $container->get('spotify'),
+        $container->get('db')
+    );
+};
+
+// Music page
+$container[MusicPageAction::class] = function (ContainerInterface $container) {
+    return new MusicPageAction(
+        $container->get('renderer'),
+        $container->get('spotify'),
+        $container->get('db')
+    );
+};
+$container[MusicAction::class] = function (ContainerInterface $container) {
+    return new MusicAction(
+        $container->get('renderer'),
+        $container->get('spotify'),
+        $container->get('db')
+    );
+};
+
+// Logout
+$container[LogoutAction::class] = function (ContainerInterface $container) {
+    return new LogoutAction(
+        $container->get('renderer')
+    );
+};
+
+// Signup
+$container[SignupAction::class] = function (ContainerInterface $container) {
+    return new SignupAction(
+        $container->get('renderer'),
+        $container->get('db')
+    );
+};

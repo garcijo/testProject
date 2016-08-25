@@ -1,1 +1,0 @@
-{"virtualbox":{"/vagrant":{"owner":"www-data","group":"www-data","mount_options":["dmode=777"],"guestpath":"/vagrant","hostpath":"C:/Users/j_ramos/Projects/testProject","disabled":false,"__vagrantfile":true}}}

@@ -1,6 +1,6 @@
 <?php
 
-
+namespace Web\Domain;
 
 
 class UserMapper extends Mapper
@@ -43,7 +43,7 @@ class UserMapper extends Mapper
             return new UserEntity(['email' => '','name' => '','password' => '',]);
         }
     }
-    
+
     /**
      * Accept a username, name, and password
      * and create a new user with the given fields

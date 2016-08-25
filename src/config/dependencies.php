@@ -12,6 +12,7 @@ use Symfony\Component\Yaml\Yaml;
 
 // DIC configuration
 $container = $app->getContainer();
+
 $container['config'] = function () {
     $configPath = __DIR__ . '/environment/main.yaml';
 
@@ -25,7 +26,6 @@ $container['config'] = function () {
 foreach ($container->get('config')['settings'] as $key => $value) {
     $container['settings'][$key] = $value;
 }
-
 
 // view renderer
 $container['renderer'] = function ($c) {

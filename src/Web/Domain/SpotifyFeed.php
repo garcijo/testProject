@@ -1,6 +1,9 @@
 <?php
 
+namespace Web\Domain;
 
+use Slim\PDO\Database;
+use Slim\PDO\Statement;
 
 class SpotifyFeed extends Feed
 {
@@ -54,8 +57,7 @@ class SpotifyFeed extends Feed
      */
     public function saveSong(string $song_id, string $user)
     {
-        $sql = 'INSERT INTO likes(user, songId) VALUES
-            (:user, :songId)';
+        $sql = 'INSERT INTO likes(user, songId) VALUES (:user, :songId)';
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute(['user' => $user,  'songId' => $song_id,]);
         if (!$result) {
@@ -74,7 +76,7 @@ class SpotifyFeed extends Feed
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute(['user' => $user]);
         if ($result) {
-            while($song = $stmt->fetch(PDO::FETCH_NUM)) {
+            while($song = $stmt->fetch()) {
                 $songs[] = $song;
             }
         }

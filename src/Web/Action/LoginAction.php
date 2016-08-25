@@ -13,9 +13,8 @@ class LoginAction
      */
     private $renderer;
 
-    public function __construct(
-        PhpRenderer $renderer
-    ) {
+    public function __construct(PhpRenderer $renderer)
+    {
         $this->renderer = $renderer;
     }
 

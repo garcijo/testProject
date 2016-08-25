@@ -2,6 +2,12 @@
 
 use Slim\Http\Response;
 use Slim\Http\Request;
+use Web\Domain\UserMapper;
+use Web\Domain\SpotifyFeed;
+use Web\Domain\Feed;
+use Web\Domain\UserEntity;
+use Web\Domain\Mapper;
+use Slim\PDO\Database;
 
 //login & registration page
 
@@ -40,7 +46,7 @@ $app->get('/music', function ($request, $response, $args) {
 
         $songinfo = "";
         foreach ($songs as $song) {
-            $results = $this->spotify->getTrack($song[1]);
+            $results = $this->spotify->getTrack($song['songId']);
             $songinfo .= $spotify->createTable($results);
         }
 
@@ -136,7 +142,7 @@ $app->post('/ajaxMusic', function ($request, $response, $a) {
     $songs = $spotify->getMusic($user);
 
     foreach ($songs as $song) {
-        $results = $this->spotify->getTrack($song[1]);
+        $results = $this->spotify->getTrack($song['songId']);
         $songinfo .= $spotify->createTable($results);
     }
 

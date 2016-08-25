@@ -44,7 +44,7 @@ class LoginAction
             } else {
                 $_SESSION['user'] = $user_name;
 
-                $response = $response->withRedirect("/home");
+                $response = $response->withRedirect('/home');
                 return $response;
             }
         }

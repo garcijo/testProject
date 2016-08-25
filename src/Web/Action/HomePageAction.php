@@ -36,9 +36,11 @@ class HomePageAction
             $spotify = new SpotifyFeed($this->spotify, $this->db);
             $song = $spotify->newSong($user);
             $spotify->setSong($song);
+
             return $this->renderer->render($response, 'home.phtml', $args);
         } else {
-            $response = $response->withRedirect("/login");
+            $response = $response->withRedirect('/login');
+
             return $response;
         }
     }

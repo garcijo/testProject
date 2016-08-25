@@ -11,23 +11,16 @@ if (PHP_SAPI == 'cli-server') {
 
 require __DIR__ . '/../vendor/autoload.php';
 
-spl_autoload_register(function ($classname) {
-    require ("../classes/" . $classname . ".php");
-});
+
 
 session_start();
 
 // Instantiate the app
-$settings = require __DIR__ . '/../src/config/settings.php';
-$app = new \Slim\App($settings);
 
-// Set up dependencies
+$app = new \Slim\App();
+
 require __DIR__ . '/../src/config/dependencies.php';
-
-// Register middleware
 require __DIR__ . '/../src/config/middleware.php';
-
-// Register routes
 require __DIR__ . '/../src/config/routes.php';
 
 // Run app

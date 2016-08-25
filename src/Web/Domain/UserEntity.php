@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\UserEntity;
+namespace Web\Domain;
 
 class UserEntity
 {

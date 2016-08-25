@@ -7,8 +7,22 @@ Users can either like or dislike songs. Songs that have been liked by a user wil
 on a table in the Music tab.
 
 # Installation:
-1. In src/settings.php change the MySQL connection settings according to your configuration. For this project, the database used is called 'test', the user 'root', and the password 'password'.
-2. In terminal, change locations to your cloned directory and then change to the public folder (eg. cd Desktop/testProject/public)
-3. Run the following code to start the php localhost: $ php -S localhost:8000
-4. Open your browser and visit http://localhost:8000/ The website should now be functional
+Dependencies can be installed through Composer with `composer install`
 
+The app config is located at `src/config/environment/main.yaml`. Adjust as necessary.
+
+#Development Environment:
+A `Vagrantfile` and `scripts` directory are provided to enable a development environment. To create 
+an environment:
+
+```
+$ vagrant up
+```
+
+To reset the environment including the database:
+
+```
+$ vagrant provision
+```
+
+The url for this environment is `test1.loc`

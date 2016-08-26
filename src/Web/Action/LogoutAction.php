@@ -22,7 +22,8 @@ class LogoutAction
     {
         session_unset();
         session_destroy();
-        $response = $response->withRedirect("/login");
+        $response = $response->withRedirect('/login');
+
         return $response;
     }
 }

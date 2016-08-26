@@ -15,7 +15,6 @@ class LoginPageAction
 
     public function __construct(PhpRenderer $renderer)
     {
-
         $this->renderer = $renderer;
     }
 
@@ -23,7 +22,8 @@ class LoginPageAction
     {
         // Verify if user is authenticated. If true, redirect to home
         if (isset($_SESSION['user'])) {
-            $response = $response->withRedirect("/home");
+            $response = $response->withRedirect('/home');
+
             return $response;
         } else {
             return $this->renderer->render($response, 'login.phtml', $args);

@@ -31,7 +31,6 @@ class NewMusicAction
     public function __invoke(Request $request, Response $response, $args)
     {
         $data = $request->getParsedBody();
-        $user_data = [];
         $action = filter_var($data['action'], FILTER_SANITIZE_STRING);
         $songId = filter_var($data['id'], FILTER_SANITIZE_STRING);
         $user = filter_var($data['user'], FILTER_SANITIZE_STRING);

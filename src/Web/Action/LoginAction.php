@@ -27,7 +27,6 @@ class LoginAction
     public function __invoke(Request $request, Response $response, $args)
     {
         $data = $request->getParsedBody();
-        $user_data = [];
         $userEmail = filter_var($data['email'], FILTER_SANITIZE_STRING);
         $userPass = filter_var($data['password'], FILTER_SANITIZE_STRING);
 

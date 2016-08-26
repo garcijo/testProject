@@ -27,7 +27,6 @@ class SignupAction
     public function __invoke(Request $request, Response $response, $args)
     {
         $data = $request->getParsedBody();
-        $userData = [];
         $userName = filter_var($data['name'], FILTER_SANITIZE_STRING);
         $userEmail = filter_var($data['email'], FILTER_SANITIZE_STRING);
         $userPass = filter_var($data['password'], FILTER_SANITIZE_STRING);

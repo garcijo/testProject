@@ -20,8 +20,8 @@ class SpotifyFeed extends Feed
             ));
 
             $song = $playlist->tracks[0];
-            $song_id = $song->id;
-            $exists = $this->verifySong($song_id, $user);
+            $songId = $song->id;
+            $exists = $this->verifySong($songId, $user);
         } while ($exists);
 
         return $song;
@@ -31,14 +31,14 @@ class SpotifyFeed extends Feed
      * Accept a valid username and a specific song's id
      * and verify that the song is not already saved by the user.
      *
-     * @param string $song_id The Spotify song id code
+     * @param string $songId The Spotify song id code
      * @param string $user    The current user's username
      */
-    private function verifySong(string $song_id, string $user)
+    private function verifySong(string $songId, string $user)
     {
         $sql = 'SELECT * FROM likes WHERE user =:user AND songId =:song_id';
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(['user' => $user, 'song_id' => $song_id]);
+        $stmt->execute(['user' => $user, 'song_id' => $songId]);
         if (!empty($stmt->fetch())) {
             $exists = true;
         } else {
@@ -50,14 +50,14 @@ class SpotifyFeed extends Feed
      * Accept a valid username and a specific song's id
      * and save it into the user's liked songs list.
      *
-     * @param string $song_id The Spotify song id code
+     * @param string $songId The Spotify song id code
      * @param string $user    The current user's username
      */
-    public function saveSong(string $song_id, string $user)
+    public function saveSong(string $songId, string $user)
     {
         $sql = 'INSERT INTO likes(user, songId) VALUES (:user, :songId)';
         $stmt = $this->db->prepare($sql);
-        $result = $stmt->execute(['user' => $user, 'songId' => $song_id]);
+        $result = $stmt->execute(['user' => $user, 'songId' => $songId]);
         if (!$result) {
             throw new Exception('Could not save song!');
         }

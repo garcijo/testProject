@@ -31,18 +31,25 @@ class MusicPageAction
     public function __invoke(Request $request, Response $response, $args)
     {
         // Verify if user is authenticated. If false, redirect to login
-        $user = $_SESSION['user'];
-        $spotify = new SpotifyFeed($this->spotify, $this->db);
-        $songs = $spotify->getMusic($user);
+        if (isset($_SESSION['user'])) {
+            $user = $_SESSION['user'];
 
-        $songInfo = '';
-        foreach ($songs as $song) {
-            $results = $this->spotify->getTrack($song['songId']);
-            $songInfo .= $spotify->createTable($results);
+            $spotify = new SpotifyFeed($this->spotify, $this->db);
+            $songs = $spotify->getMusic($user);
+
+            $songinfo = '';
+            foreach ($songs as $song) {
+                $results = $this->spotify->getTrack($song['songId']);
+                $songinfo .= $spotify->createTable($results);
+            }
+
+            $_SESSION['songinfo'] = $songinfo;
+
+            return $this->renderer->render($response, 'music.phtml', $args);
+        } else {
+            $response = $response->withRedirect('/login');
+
+            return $response;
         }
-
-        $_SESSION['songinfo'] = $songInfo;
-
-        return $this->renderer->render($response, 'music.phtml', $args);
     }
 }

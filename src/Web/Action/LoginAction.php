@@ -28,23 +28,24 @@ class LoginAction
     {
         $data = $request->getParsedBody();
         $user_data = [];
-        $userEmail = filter_var($data['email'], FILTER_SANITIZE_STRING);
-        $userPass = filter_var($data['password'], FILTER_SANITIZE_STRING);
+        $user_email = filter_var($data['email'], FILTER_SANITIZE_STRING);
+        $user_pass = filter_var($data['password'], FILTER_SANITIZE_STRING);
 
-        if (empty($userEmail) || empty($userPass)) {
+        if (empty($user_email) || empty($user_pass)) {
             $_POST['error'] = '<p class="error">Incorrect login!</p>';
 
             return $this->renderer->render($response, 'login.phtml', $args);
         } else {
-            $userMapper = new UserMapper($this->db);
-            $user = $userMapper->loginUser($userEmail, $userPass);
-            $userName = $user->getName();
-            if (empty($userName)) {
+            $user_mapper = new UserMapper($this->db);
+            $user = $user_mapper->loginUser($user_email, $user_pass);
+            $user_name = $user->getName();
+            if (empty($user_name)) {
                 $_POST['error'] = '<p class="error">Incorrect login!</p>';
 
                 return $this->renderer->render($response, 'login.phtml', $args);
             } else {
-                $_SESSION['user'] = $userName;
+                $_SESSION['user'] = $user_name;
+
                 $response = $response->withRedirect('/home');
 
                 return $response;

@@ -33,16 +33,16 @@ class NewMusicAction
         $data = $request->getParsedBody();
         $user_data = [];
         $action = filter_var($data['action'], FILTER_SANITIZE_STRING);
-        $songId = filter_var($data['id'], FILTER_SANITIZE_STRING);
+        $song_id = filter_var($data['id'], FILTER_SANITIZE_STRING);
         $user = filter_var($data['user'], FILTER_SANITIZE_STRING);
 
         $spotify = new SpotifyFeed($this->spotify, $this->db);
         if ($action == 'like') {
-            $spotify->saveSong($songId, $user);
+            $spotify->saveSong($song_id, $user);
         }
         $song = $spotify->newSong($user);
-        $newSong = $spotify->getSong($song);
+        $new_song = $spotify->getSong($song);
 
-        echo json_encode($newSong);
+        echo json_encode($new_song);
     }
 }

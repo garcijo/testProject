@@ -1,7 +1,6 @@
 /vendor/
 .vagrant
 .idea
-.env_config
 /logs/*
 !/logs/README.md
 .idea/workspace.xml

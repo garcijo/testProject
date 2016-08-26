@@ -31,11 +31,17 @@ class HomePageAction
     public function __invoke(Request $request, Response $response, $args)
     {
         // Verify if user is authenticated. If false, redirect to login
-        $user = $_SESSION['user'];
-        $spotify = new SpotifyFeed($this->spotify, $this->db);
-        $song = $spotify->newSong($user);
-        $spotify->setSong($song);
+        if (isset($_SESSION['user'])) {
+            $user = $_SESSION['user'];
+            $spotify = new SpotifyFeed($this->spotify, $this->db);
+            $song = $spotify->newSong($user);
+            $spotify->setSong($song);
 
-        return $this->renderer->render($response, 'home.phtml', $args);
+            return $this->renderer->render($response, 'home.phtml', $args);
+        } else {
+            $response = $response->withRedirect('/login');
+
+            return $response;
+        }
     }
 }

@@ -10,14 +10,14 @@ use Web\Action\NewMusicAction;
 use Web\Action\MusicAction;
 
 //login & registration page
-$app->get('/login', LoginPageAction::class)->setName('login');
-$app->get('/home', HomePageAction::class)->setName('home');
-$app->get('/music', MusicPageAction::class)->setName('music');
-$app->post('/signin', LoginAction::class)->setName('signin');
-$app->get('/logout', LogoutAction::class)->setName('logout');
-$app->post('/signup', SignupAction::class)->setName('signup');
-$app->post('/ajax', NewMusicAction::class)->setName('ajax');
-$app->post('/ajaxMusic', MusicAction::class)->setName('ajaxMusic');
+$app->get('/login', LoginPageAction::class);
+$app->get('/home', HomePageAction::class);
+$app->get('/music', MusicPageAction::class);
+$app->post('/signin', LoginAction::class);
+$app->get('/logout', LogoutAction::class);
+$app->post('/signup', SignupAction::class);
+$app->post('/ajax', NewMusicAction::class);
+$app->post('/ajaxMusic', MusicAction::class);
 
 $app->get('/[{name}]', function ($request, $response, $args) {
     $response = $response->withRedirect('/login');

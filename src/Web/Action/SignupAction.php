@@ -27,21 +27,21 @@ class SignupAction
     public function __invoke(Request $request, Response $response, $args)
     {
         $data = $request->getParsedBody();
-        $user_data = [];
-        $user_name = filter_var($data['name'], FILTER_SANITIZE_STRING);
-        $user_email = filter_var($data['email'], FILTER_SANITIZE_STRING);
-        $user_pass = filter_var($data['password'], FILTER_SANITIZE_STRING);
+        $userData = [];
+        $userName = filter_var($data['name'], FILTER_SANITIZE_STRING);
+        $userEmail = filter_var($data['email'], FILTER_SANITIZE_STRING);
+        $userPass = filter_var($data['password'], FILTER_SANITIZE_STRING);
         // work out the component
-        $user_mapper = new UserMapper($this->db);
+        $userMapper = new UserMapper($this->db);
         //First check the email doesn't exist yet
-        $user = $user_mapper->searchUser($user_email);
+        $user = $userMapper->searchUser($userEmail);
         if (!empty($user->getName())) {
             $_POST['error'] = '<p class="error">That email address already exists!</p>';
 
             return $this->renderer->render($response, 'login.phtml', $args);
         } else {
-            $user = $user_mapper->createUser($user_name, $user_email, $user_pass);
-            $_SESSION['user'] = $user_name;
+            $user = $userMapper->createUser($userName, $userEmail, $userPass);
+            $_SESSION['user'] = $userName;
             $response = $response->withRedirect('/home');
 
             return $response;

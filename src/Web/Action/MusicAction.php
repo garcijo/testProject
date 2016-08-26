@@ -38,9 +38,9 @@ class MusicAction
 
         foreach ($songs as $song) {
             $results = $this->spotify->getTrack($song['songId']);
-            $songinfo .= $spotify->createTable($results);
+            $songInfo .= $spotify->createTable($results);
         }
 
-        echo $songinfo;
+        echo $songInfo;
     }
 }

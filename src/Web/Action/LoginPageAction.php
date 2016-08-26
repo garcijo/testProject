@@ -21,12 +21,6 @@ class LoginPageAction
     public function __invoke(Request $request, Response $response, $args)
     {
         // Verify if user is authenticated. If true, redirect to home
-        if (isset($_SESSION['user'])) {
-            $response = $response->withRedirect('/home');
-
-            return $response;
-        } else {
-            return $this->renderer->render($response, 'login.phtml', $args);
-        }
+        return $this->renderer->render($response, 'login.phtml', $args);
     }
 }

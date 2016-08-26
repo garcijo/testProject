@@ -32,10 +32,9 @@ class UserMapper extends Mapper
      */
     public function searchUser(string $userEmail):UserEntity
     {
-        $email = $userEmail;
         $sql = 'SELECT * FROM user WHERE email = :userEmail';
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(['userEmail' => $email]);
+        $stmt->execute(['userEmail' => $userEmail]);
         if ($rs = $stmt->fetch()) {
             return new UserEntity($rs);
         } else {

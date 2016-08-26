@@ -73,7 +73,7 @@ class SpotifyFeed extends Feed
         $sql = 'SELECT * FROM likes WHERE user=:user';
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute(['user' => $user]);
-        $songs = array();
+        $songs = [];
         if ($result) {
             while ($song = $stmt->fetch()) {
                 $songs[] = $song;

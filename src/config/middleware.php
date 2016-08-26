@@ -7,7 +7,7 @@ $app->add(function (Request $request, Response $response, callable $next) {
     $route = $request->getAttribute('route');
     $name = $route->getName();
 
-    if (!isset($_SESSION['user']) && !in_array($name, ['login', 'signin', 'logout', ''])) {
+    if (!isset($_SESSION['user']) && !in_array($name, ['login', 'signin', 'signup', 'logout', ''])) {
         $response = $response->withRedirect('/login');
 
         return $response;

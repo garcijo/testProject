@@ -1,6 +1,4 @@
 settings:
-  displayErrorDetails: true
-  addContentLengthHeader: false
   determineRouteBeforeAppMiddleware: true
 renderer:
   template_path: '../templates/'

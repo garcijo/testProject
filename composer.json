@@ -28,7 +28,6 @@
       }
     },
     "require-dev": {
-      "squizlabs/php_codesniffer": "2.*",
       "fabpot/php-cs-fixer": "^1.11"
     }
 }

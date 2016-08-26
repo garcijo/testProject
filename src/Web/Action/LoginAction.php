@@ -27,25 +27,23 @@ class LoginAction
     public function __invoke(Request $request, Response $response, $args)
     {
         $data = $request->getParsedBody();
-        $user_data = [];
-        $user_email = filter_var($data['email'], FILTER_SANITIZE_STRING);
-        $user_pass = filter_var($data['password'], FILTER_SANITIZE_STRING);
+        $userEmail = filter_var($data['email'], FILTER_SANITIZE_STRING);
+        $userPass = filter_var($data['password'], FILTER_SANITIZE_STRING);
 
-        if (empty($user_email) || empty($user_pass)) {
+        if (empty($userEmail) || empty($userPass)) {
             $_POST['error'] = '<p class="error">Incorrect login!</p>';
 
             return $this->renderer->render($response, 'login.phtml', $args);
         } else {
-            $user_mapper = new UserMapper($this->db);
-            $user = $user_mapper->loginUser($user_email, $user_pass);
-            $user_name = $user->getName();
-            if (empty($user_name)) {
+            $userMapper = new UserMapper($this->db);
+            $user = $userMapper->loginUser($userEmail, $userPass);
+            $userName = $user->getName();
+            if (empty($userName)) {
                 $_POST['error'] = '<p class="error">Incorrect login!</p>';
 
                 return $this->renderer->render($response, 'login.phtml', $args);
             } else {
-                $_SESSION['user'] = $user_name;
-
+                $_SESSION['user'] = $userName;
                 $response = $response->withRedirect('/home');
 
                 return $response;

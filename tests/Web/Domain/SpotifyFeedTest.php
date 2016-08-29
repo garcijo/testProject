@@ -6,6 +6,7 @@ use Web\Domain\UserMapper;
 use Web\Domain\SpotifyFeed;
 use SpotifyWebAPI\SpotifyWebAPI;
 use SpotifyWebAPI\Session;
+use Slim\PDO\Database;
 
 class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +27,7 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
     public function testNewSongSuccess()
     {
-        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
+        $db = new Database('mysql:dbname=test', 'vagrant', 'vagrant');
         $spotify = $this->setupSpotify();
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 
@@ -47,7 +48,7 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveSongSuccess()
     {
-        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
+        $db = new Database('mysql:dbname=test', 'vagrant', 'vagrant');
         $spotify = $this->setupSpotify();
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 
@@ -72,7 +73,7 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMusicSuccessHasSongs()
     {
-        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
+        $db = new Database('mysql:dbname=test', 'vagrant', 'vagrant');
         $spotify = $this->setupSpotify();
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 
@@ -97,7 +98,7 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
     public function testGetMusicSuccessHasNoSongs()
     {
-        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
+        $db = new Database('mysql:dbname=test', 'vagrant', 'vagrant');
         $spotify = $this->setupSpotify();
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 
@@ -119,7 +120,7 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSongSuccess()
     {
-        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
+        $db = new Database('mysql:dbname=test', 'vagrant', 'vagrant');
         $spotify = $this->setupSpotify();
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 
@@ -152,7 +153,8 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
     public function testSetSongSuccess()
     {
-        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
+        $db = new Database('mysql:dbname=test', 'vagrant', 'vagrant');
+        //$db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
         $spotify = $this->setupSpotify();
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 

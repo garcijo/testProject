@@ -7,10 +7,9 @@ use Web\Domain\UserEntity;
 
 class UserMapperTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testLoginUserSuccess()
     {
-        $db = new \PDO('mysql:dbname=test','vagrant','vagrant');
+        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
         $userMapper = new UserMapper($db);
 
         $testName = uniqid('name');
@@ -30,7 +29,7 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
 
     public function testLoginUserFail()
     {
-        $db = new \PDO('mysql:dbname=test','vagrant','vagrant');
+        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
         $userMapper = new UserMapper($db);
 
         $testPassword = md5(uniqid('fakePass'));
@@ -45,7 +44,7 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
 
     public function testSearchUserSuccess()
     {
-        $db = new \PDO('mysql:dbname=test','vagrant','vagrant');
+        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
         $userMapper = new UserMapper($db);
 
         $testName = uniqid('name');
@@ -65,7 +64,7 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
 
     public function testSearchUserFail()
     {
-        $db = new \PDO('mysql:dbname=test','vagrant','vagrant');
+        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
         $userMapper = new UserMapper($db);
 
         $testUserName = uniqid('email');
@@ -79,7 +78,7 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateUserSuccess()
     {
-        $db = new \PDO('mysql:dbname=test','vagrant','vagrant');
+        $db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
         $userMapper = new UserMapper($db);
 
         $testName = uniqid('name');

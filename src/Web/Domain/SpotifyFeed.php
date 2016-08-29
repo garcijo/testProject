@@ -34,7 +34,7 @@ class SpotifyFeed extends Feed
      * @param string $songId The Spotify song id code
      * @param string $user    The current user's username
      */
-    private function verifySong(string $songId, string $user)
+    public function verifySong(string $songId, string $user):bool
     {
         $sql = 'SELECT * FROM likes WHERE user =:user AND songId =:song_id';
         $stmt = $this->db->prepare($sql);
@@ -44,6 +44,8 @@ class SpotifyFeed extends Feed
         } else {
             $exists = false;
         }
+
+        return $exists;
     }
 
     /**

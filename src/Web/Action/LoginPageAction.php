@@ -9,7 +9,7 @@ use Slim\Views\PhpRenderer;
 class LoginPageAction
 {
     /**
-     * @var array
+     * @var PhpRenderer
      */
     private $renderer;
 

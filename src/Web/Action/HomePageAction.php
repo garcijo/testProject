@@ -12,10 +12,16 @@ use Slim\PDO\Database;
 class HomePageAction
 {
     /**
-     * @var array
+     * @var PhpRenderer
      */
     private $renderer;
+    /**
+     * @var SpotifyWebAPI
+     */
     private $spotify;
+    /**
+     * @var Database
+     */
     private $db;
 
     public function __construct(

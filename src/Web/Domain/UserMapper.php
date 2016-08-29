@@ -9,6 +9,8 @@ class UserMapper extends Mapper
      *
      * @param string $userEmail The current user's username
      * @param string $userPass  The current user's password
+     *
+     * @return UserEntity
      */
     public function loginUser(string $userEmail, string $userPass):UserEntity
     {
@@ -29,6 +31,8 @@ class UserMapper extends Mapper
      * Accept a username and look it up in the database to verify if it exists.
      *
      * @param string $userEmail The current user's username
+     *
+     * @return UserEntity
      */
     public function searchUser(string $userEmail):UserEntity
     {

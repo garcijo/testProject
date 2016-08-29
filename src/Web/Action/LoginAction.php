@@ -11,9 +11,12 @@ use Slim\PDO\Database;
 class LoginAction
 {
     /**
-     * @var array
+     * @var PhpRenderer
      */
     private $renderer;
+    /**
+     * @var Database
+     */
     private $db;
 
     public function __construct(

@@ -16,12 +16,18 @@ class UserMapper extends Mapper
     {
         $email = $userEmail;
         $pass = $userPass;
+
         $sql = 'SELECT name, email, password
-            FROM user WHERE email = :userEmail AND password = :userPass';
+            FROM user WHERE email = :userEmail';
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(['userEmail' => $email, 'userPass' => $pass]);
+        $stmt->execute(['userEmail' => $email]);
         if ($rs = $stmt->fetch()) {
-            return new UserEntity($rs);
+            if (password_verify($pass, $rs['password'])) {
+                return new UserEntity($rs);
+            }
+            else {
+                return new UserEntity(['email' => '', 'name' => '', 'password' => '']);
+            }
         } else {
             return new UserEntity(['email' => '', 'name' => '', 'password' => '']);
         }

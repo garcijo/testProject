@@ -14,18 +14,17 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
         $userMapper = new UserMapper($db);
 
         $testName = uniqid('name');
-        $testPassword = md5(uniqid('pass'));
+        $testPassword = uniqid('pass');
+        $hash = password_hash($testPassword, PASSWORD_DEFAULT);
         $testUserName = uniqid('email');
-        $expectedUser = new UserEntity(['email' => $testUserName, 'name' => $testName, 'password' => $testPassword]);
-        $userMapper->createUser($testName, $testUserName, $testPassword);
+        $expectedUser = new UserEntity(['email' => $testUserName, 'name' => $testName, 'password' => $hash]);
+        $userMapper->createUser($testName, $testUserName, $hash);
         $testLog = $userMapper->loginUser($testUserName, $testPassword);
 
         $this->assertEquals($expectedUser, $testLog);
 
         //remove dummy data
         $userMapper->removeUser($testUserName);
-
-        return $testLog;
     }
 
     public function testLoginUserFail()
@@ -34,14 +33,12 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
         //$db = new \PDO('mysql:dbname=test', 'vagrant', 'vagrant');
         $userMapper = new UserMapper($db);
 
-        $testPassword = md5(uniqid('fakePass'));
+        $testPassword = uniqid('fakePass');
         $testUserName = uniqid('fakeEmail');
         $expectedUser = new UserEntity(['email' => '', 'name' => '', 'password' => '']);
         $testLog = $userMapper->loginUser($testUserName, $testPassword);
 
         $this->assertEquals($expectedUser, $testLog);
-
-        return $testLog;
     }
 
     public function testSearchUserSuccess()
@@ -50,7 +47,7 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
         $userMapper = new UserMapper($db);
 
         $testName = uniqid('name');
-        $testPassword = md5(uniqid('pass'));
+        $testPassword = password_hash(uniqid('pass'), PASSWORD_DEFAULT);
         $testUserName = uniqid('email');
         $expectedUser = new UserEntity(['email' => $testUserName, 'name' => $testName, 'password' => $testPassword]);
         $userMapper->createUser($testName, $testUserName, $testPassword);
@@ -60,8 +57,6 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
 
         //remove dummy data
         $userMapper->removeUser($testUserName);
-
-        return $testSearch;
     }
 
     public function testSearchUserFail()
@@ -74,8 +69,6 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
         $testSearch = $userMapper->searchUser($testUserName);
 
         $this->assertEquals($expectedUser, $testSearch);
-
-        return $testSearch;
     }
 
     public function testCreateUserSuccess()
@@ -84,7 +77,7 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
         $userMapper = new UserMapper($db);
 
         $testName = uniqid('name');
-        $testPassword = md5(uniqid('pass'));
+        $testPassword = password_hash(uniqid('pass'), PASSWORD_DEFAULT);
         $testUserName = uniqid('email');
         $userMapper->createUser($testName, $testUserName, $testPassword);
         $expectedUser = new UserEntity(['email' => $testUserName, 'name' => $testName, 'password' => $testPassword]);
@@ -94,7 +87,5 @@ class UserMapperTest extends \PHPUnit_Framework_TestCase
 
         //remove dummy data
         $userMapper->removeUser($testUserName);
-
-        return $searchUser;
     }
 }

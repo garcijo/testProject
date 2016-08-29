@@ -29,10 +29,10 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
     {
         $db = new Database('mysql:dbname=test', 'vagrant', 'vagrant');
         $spotify = $this->setupSpotify();
-        $spotifyFeed = new SpotifyFeed($spotify, $db);
+        $spotifyFeed = new SpotifyFeed($this->setupSpotify(), $db);
 
         $testName = uniqid('name');
-        $testPassword = md5(uniqid('pass'));
+        $testPassword = password_hash(uniqid('pass'), PASSWORD_DEFAULT);
         $testUserName = uniqid('email');
         $userMapper = new UserMapper($db);
         $userMapper->createUser($testName, $testUserName, $testPassword);
@@ -42,8 +42,6 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
         //remove dummy data
         $userMapper->removeUser($testUserName);
-
-        return $testSong;
     }
 
     public function testSaveSongSuccess()
@@ -53,7 +51,7 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 
         $testName = uniqid('name');
-        $testPassword = md5(uniqid('pass'));
+        $testPassword = $testPassword = password_hash(uniqid('pass'), PASSWORD_DEFAULT);
         $testUserName = uniqid('email');
         $userMapper = new UserMapper($db);
         $userMapper->createUser($testName, $testUserName, $testPassword);
@@ -67,8 +65,6 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
         //remove dummy data
         $userMapper->removeUser($testUserName);
-
-        return $testSong;
     }
 
     public function testGetMusicSuccessHasSongs()
@@ -78,7 +74,7 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 
         $testName = uniqid('name');
-        $testPassword = md5(uniqid('pass'));
+        $testPassword = $testPassword = password_hash(uniqid('pass'), PASSWORD_DEFAULT);
         $testUserName = uniqid('email');
         $userMapper = new UserMapper($db);
         $userMapper->createUser($testName, $testUserName, $testPassword);
@@ -92,8 +88,6 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
         //remove dummy data
         $userMapper->removeUser($testUserName);
-
-        return $songsFound;
     }
 
     public function testGetMusicSuccessHasNoSongs()
@@ -103,7 +97,7 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 
         $testName = uniqid('name');
-        $testPassword = md5(uniqid('pass'));
+        $testPassword = $testPassword = password_hash(uniqid('pass'), PASSWORD_DEFAULT);
         $testUserName = uniqid('email');
         $userMapper = new UserMapper($db);
         $userMapper->createUser($testName, $testUserName, $testPassword);
@@ -114,8 +108,6 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
         //remove dummy data
         $userMapper->removeUser($testUserName);
-
-        return $songsFound;
     }
 
     public function testGetSongSuccess()
@@ -125,7 +117,7 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 
         $testName = uniqid('name');
-        $testPassword = md5(uniqid('pass'));
+        $testPassword = password_hash(uniqid('pass'), PASSWORD_DEFAULT);
         $testUserName = uniqid('email');
         $userMapper = new UserMapper($db);
         $userMapper->createUser($testName, $testUserName, $testPassword);
@@ -147,8 +139,6 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
         //remove dummy data
         $userMapper->removeUser($testUserName);
-
-        return $testSong;
     }
 
     public function testSetSongSuccess()
@@ -159,7 +149,7 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
         $spotifyFeed = new SpotifyFeed($spotify, $db);
 
         $testName = uniqid('name');
-        $testPassword = md5(uniqid('pass'));
+        $testPassword = password_hash(uniqid('pass'), PASSWORD_DEFAULT);
         $testUserName = uniqid('email');
         $userMapper = new UserMapper($db);
         $userMapper->createUser($testName, $testUserName, $testPassword);
@@ -176,7 +166,5 @@ class SpotifyFeedTest extends \PHPUnit_Framework_TestCase
 
         //remove dummy data
         $userMapper->removeUser($testUserName);
-
-        return $newSong;
     }
 }

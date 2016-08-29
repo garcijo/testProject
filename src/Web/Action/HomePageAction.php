@@ -40,7 +40,7 @@ class HomePageAction
         $user = $_SESSION['user'];
         $spotify = new SpotifyFeed($this->spotify, $this->db);
         $song = $spotify->newSong($user);
-        $spotify->setSong($song);
+        //$spotify->setSong($song);
 
         return $this->renderer->render($response, 'home.phtml', $args);
     }

@@ -44,7 +44,7 @@ $user = $_SESSION['user'];
 </nav>
 
 <div class="cover" style="opacity: 0.0; visibility: visible;">
-    <img id="img_link" src="">
+    <img id="img_link" src="img/blank.png">
     <img id="play_pause" class="play" src="img/play.png">
     <div class="loader-inner line-scale-pulse-out"></div>
     <h2><span id="song_name"></span></h2>
@@ -82,10 +82,10 @@ $user = $_SESSION['user'];
             $("#song_link").attr("src", response[4]);//song_link
             var sound = $("#song")[0];
             sound.load();
-            $("#img_link").fadeOut(300, function () {
+            $("#img_link").fadeOut(100, function () {
                 $("#img_link").attr("src", response[3]);//song_image
             }).fadeIn(300);
-            $("#play_pause").fadeIn(300);
+            $("#play_pause").fadeIn(100);
             $("#like").prop("disabled", false);
             $("#dislike").prop("disabled", false);
             $('.cover').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
@@ -116,10 +116,10 @@ $user = $_SESSION['user'];
                 var sound = $("#song")[0];
                 sound.load();
                 sound.play();
-                $("#img_link").fadeOut(300, function () {
+                $("#img_link").fadeOut(150, function () {
                     $("#img_link").attr("src", response[3]);//song_image
                 }).fadeIn(300);
-                $("#play_pause").fadeIn(300);
+                $("#play_pause").fadeIn(150);
                 $("#like").prop("disabled", false);
                 $("#dislike").prop("disabled", false);
             }, "json");

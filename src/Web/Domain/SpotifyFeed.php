@@ -32,7 +32,7 @@ class SpotifyFeed extends Feed
      * and verify that the song is not already saved by the user.
      *
      * @param string $songId The Spotify song id code
-     * @param string $user    The current user's username
+     * @param string $user   The current user's username
      */
     public function verifySong(string $songId, string $user):bool
     {
@@ -53,7 +53,7 @@ class SpotifyFeed extends Feed
      * and save it into the user's liked songs list.
      *
      * @param string $songId The Spotify song id code
-     * @param string $user    The current user's username
+     * @param string $user   The current user's username
      */
     public function saveSong(string $songId, string $user)
     {

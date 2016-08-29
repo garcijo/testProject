@@ -15,7 +15,7 @@ class UserMapper extends Mapper
         $email = $userEmail;
         $pass = $userPass;
         $sql = 'SELECT name, email, password
-            FROM user WHERE email = :userEmail AND password = PASSWORD(:userPass)';
+            FROM user WHERE email = :userEmail AND password = :userPass';
         $stmt = $this->db->prepare($sql);
         $stmt->execute(['userEmail' => $email, 'userPass' => $pass]);
         if ($rs = $stmt->fetch()) {
@@ -54,7 +54,7 @@ class UserMapper extends Mapper
     {
         $sql = 'INSERT INTO user
             (name, email, password) VALUES
-            (:name, :email, PASSWORD(:password))';
+            (:name, :email, :password)';
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
             'name' => $userName,
@@ -62,7 +62,22 @@ class UserMapper extends Mapper
             'password' => $userPass,
         ]);
         if (!$result) {
-            throw new Exception('Could not register user!');
+            throw new \Exception('Could not register user!');
+        }
+    }
+
+    /**
+     * Accept a username and look it up in the database to verify if it exists.
+     *
+     * @param string $userEmail The current user's username
+     */
+    public function removeUser(string $userEmail)
+    {
+        $sql = 'DELETE FROM user WHERE email = :userEmail';
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute(['userEmail' => $userEmail]);
+        if (!$result) {
+            throw new \Exception('Could not delete user!');
         }
     }
 }

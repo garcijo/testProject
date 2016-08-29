@@ -28,7 +28,7 @@ class LoginAction
     {
         $data = $request->getParsedBody();
         $userEmail = filter_var($data['email'], FILTER_SANITIZE_STRING);
-        $userPass = filter_var($data['password'], FILTER_SANITIZE_STRING);
+        $userPass = md5(filter_var($data['password'], FILTER_SANITIZE_STRING));
 
         if (empty($userEmail) || empty($userPass)) {
             $_POST['error'] = '<p class="error">Incorrect login!</p>';

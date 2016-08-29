@@ -29,7 +29,7 @@ class SignupAction
         $data = $request->getParsedBody();
         $userName = filter_var($data['name'], FILTER_SANITIZE_STRING);
         $userEmail = filter_var($data['email'], FILTER_SANITIZE_STRING);
-        $userPass = filter_var($data['password'], FILTER_SANITIZE_STRING);
+        $userPass = md5(filter_var($data['password'], FILTER_SANITIZE_STRING));
         // work out the component
         $userMapper = new UserMapper($this->db);
         //First check the email doesn't exist yet

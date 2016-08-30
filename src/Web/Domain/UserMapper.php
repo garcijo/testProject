@@ -24,8 +24,7 @@ class UserMapper extends Mapper
         if ($rs = $stmt->fetch()) {
             if (password_verify($pass, $rs['password'])) {
                 return new UserEntity($rs);
-            }
-            else {
+            } else {
                 return new UserEntity(['email' => '', 'name' => '', 'password' => '']);
             }
         } else {

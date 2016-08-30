@@ -25,7 +25,10 @@ DROP TABLE IF EXISTS `likes`;
 CREATE TABLE `likes` (
   `user` varchar(25) NOT NULL,
   `songId` varchar(50) NOT NULL,
-  PRIMARY KEY (`user`,`songId`)
+  PRIMARY KEY (`user`,`songId`),
+  FOREIGN KEY (user)
+  REFERENCES user (email)
+  ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

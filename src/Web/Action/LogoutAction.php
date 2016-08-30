@@ -9,7 +9,7 @@ use Slim\Views\PhpRenderer;
 class LogoutAction
 {
     /**
-     * @var array
+     * @var PhpRenderer
      */
     private $renderer;
 

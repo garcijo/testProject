@@ -9,17 +9,24 @@ class UserMapper extends Mapper
      *
      * @param string $userEmail The current user's username
      * @param string $userPass  The current user's password
+     *
+     * @return UserEntity
      */
     public function loginUser(string $userEmail, string $userPass):UserEntity
     {
         $email = $userEmail;
         $pass = $userPass;
+
         $sql = 'SELECT name, email, password
-            FROM user WHERE email = :userEmail AND password = PASSWORD(:userPass)';
+            FROM user WHERE email = :userEmail';
         $stmt = $this->db->prepare($sql);
-        $stmt->execute(['userEmail' => $email, 'userPass' => $pass]);
+        $stmt->execute(['userEmail' => $email]);
         if ($rs = $stmt->fetch()) {
-            return new UserEntity($rs);
+            if (password_verify($pass, $rs['password'])) {
+                return new UserEntity($rs);
+            } else {
+                return new UserEntity(['email' => '', 'name' => '', 'password' => '']);
+            }
         } else {
             return new UserEntity(['email' => '', 'name' => '', 'password' => '']);
         }
@@ -29,6 +36,8 @@ class UserMapper extends Mapper
      * Accept a username and look it up in the database to verify if it exists.
      *
      * @param string $userEmail The current user's username
+     *
+     * @return UserEntity
      */
     public function searchUser(string $userEmail):UserEntity
     {
@@ -54,7 +63,7 @@ class UserMapper extends Mapper
     {
         $sql = 'INSERT INTO user
             (name, email, password) VALUES
-            (:name, :email, PASSWORD(:password))';
+            (:name, :email, :password)';
         $stmt = $this->db->prepare($sql);
         $result = $stmt->execute([
             'name' => $userName,
@@ -62,7 +71,22 @@ class UserMapper extends Mapper
             'password' => $userPass,
         ]);
         if (!$result) {
-            throw new Exception('Could not register user!');
+            throw new \Exception('Could not register user!');
+        }
+    }
+
+    /**
+     * Accept a username and look it up in the database to verify if it exists.
+     *
+     * @param string $userEmail The current user's username
+     */
+    public function removeUser(string $userEmail)
+    {
+        $sql = 'DELETE FROM user WHERE email = :userEmail';
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute(['userEmail' => $userEmail]);
+        if (!$result) {
+            throw new \Exception('Could not delete user!');
         }
     }
 }

@@ -19,6 +19,23 @@ an environment:
 $ vagrant up
 ```
 
+After vagrant is set up, login to the virtual machine:
+```
+$ ssh 10.0.60.12 -l vagrant
+```
+
+Once prompted, enter the password `vagrant` and then move to the directory `/vagrant/scripts`.
+
+From `scripts`, connect to MySQL to create a new database:
+```
+$ mysql
+mysql> CREATE DATABASE test;
+mysql> USE test;
+mysql> source schema.sql;
+mysql> exit
+```
+
+
 To reset the environment including the database:
 
 ```

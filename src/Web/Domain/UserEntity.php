@@ -21,17 +21,17 @@ class UserEntity
         $this->password = $data['password'];
     }
 
-    public function getEmail()
+    public function getEmail():string
     {
         return $this->email;
     }
 
-    public function getName()
+    public function getName():string
     {
         return $this->name;
     }
 
-    public function getPass()
+    public function getPass():string
     {
         return $this->password;
     }

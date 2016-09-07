@@ -5,3 +5,7 @@
 /logs/*
 !/logs/README.md
 .idea/workspace.xml
+/npm-debug.log
+/node_modules
+
+tests/_output/*

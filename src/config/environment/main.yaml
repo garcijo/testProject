@@ -4,7 +4,15 @@ renderer:
   template_path: '../templates/'
 logger:
   name: slim-app
-  path: '../logs/app.log'
+  # active handler
+  active_handler: 'default'
+  logs_handlers:
+    default:
+      # handler to write logs locally
+      path: '../logs/app.log'
+    raven:
+      # sentry handler
+      dsn: 'https://b435bc070cef41a3a3c13c3530dfd5f8:8644b6824c8a4c36a0c9b197b953eccd@sentry.io/97389'
 db:
   dbType: mysql
   host: localhost

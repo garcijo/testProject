@@ -20,7 +20,8 @@
       "jwilsson/spotify-web-api-php": "^1.0.0",
       "phpunit/phpunit": "5.4.*",
       "symfony/yaml": "^3.0",
-      "tuupola/slim-basic-auth": "^2.0"
+      "tuupola/slim-basic-auth": "^2.0",
+      "sentry/sentry": "^1.1"
     },
     "autoload": {
       "psr-4":{
@@ -28,6 +29,17 @@
       }
     },
     "require-dev": {
-      "fabpot/php-cs-fixer": "^1.11"
+      "codeception/codeception": "^2.2",
+      "friendsofphp/php-cs-fixer": "^1.12",
+      "site5/phantoman": "^1.1",
+      "jakoch/phantomjs-installer": "^2.1"
+    },
+    "scripts": {
+      "post-install-cmd": [
+        "PhantomInstaller\\Installer::installPhantomJS"
+      ],
+      "post-update-cmd": [
+        "PhantomInstaller\\Installer::installPhantomJS"
+      ]
     }
 }

@@ -1,0 +1,20 @@
+{
+  "name": "testProject",
+  "version": "1.0.0",
+  "description": "Test Music app",
+  "devDependencies": {
+    "node-sass": "latest",
+    "nodemon": "latest",
+    "phantomjs-prebuilt": "latest",
+    "selenium-webdriver": "latest",
+    "selenium-standalone": "latest"
+  },
+  "dependencies": {
+    "node-sass": "3.4.2",
+    "nodemon": "^1.9.2"
+  },
+  "keywords": [
+    "testProject"
+  ],
+  "author": "Jorge Garcia"
+}

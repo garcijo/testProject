@@ -44,17 +44,6 @@ $container['renderer'] = function ($c) {
     return $renderer;
 };
 
-// monolog
-$container['logger'] = function ($c) {
-    $settings = $c->get('settings')['logger'];
-    $settings = $settings['logger'];
-    $logger = new Logger($settings['name']);
-    $logger->pushProcessor(new UidProcessor());
-    $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
-
-    return $logger;
-};
-
 // database
 $container['db'] = function (ContainerInterface $container) {
     $dbConfig = $container->get('config')['db'];
@@ -137,4 +126,15 @@ $container[SignupAction::class] = function (ContainerInterface $container) {
         $container->get('renderer'),
         $container->get('db')
     );
+};
+
+// monolog
+$container['logger'] = function ($c) {
+    $settings = $c->get('settings')['logger'];
+    $settings = $settings['logger'];
+    $logger = new Logger($settings['name']);
+    $logger->pushProcessor(new UidProcessor());
+    $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
+
+    return $logger;
 };

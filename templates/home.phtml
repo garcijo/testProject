@@ -88,7 +88,7 @@ $user = $_SESSION['user'];
             $("#play_pause").fadeIn(100);
             $("#like").prop("disabled", false);
             $("#dislike").prop("disabled", false);
-            $('.cover').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
+            $('.cover').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0, visibility: "visible"});
             $('#song').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
             $('.buttons').css({opacity: 0.0, visibility: "visible"}).animate({opacity: 1.0});
         }, "json");

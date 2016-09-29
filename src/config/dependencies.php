@@ -1,22 +1,23 @@
 <?php
 
 use Interop\Container\ContainerInterface;
+use Monolog\Handler\RavenHandler;
+use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
-use Monolog\Handler\StreamHandler;
-use Slim\Views\PhpRenderer;
 use Slim\PDO\Database;
-use SpotifyWebAPI\SpotifyWebAPI;
+use Slim\Views\PhpRenderer;
 use SpotifyWebAPI\Session;
+use SpotifyWebAPI\SpotifyWebAPI;
 use Symfony\Component\Yaml\Yaml;
+use Web\Action\HomePageAction;
 use Web\Action\LoginAction;
 use Web\Action\LoginPageAction;
-use Web\Action\HomePageAction;
-use Web\Action\MusicPageAction;
 use Web\Action\LogoutAction;
-use Web\Action\SignupAction;
-use Web\Action\NewMusicAction;
 use Web\Action\MusicAction;
+use Web\Action\MusicPageAction;
+use Web\Action\NewMusicAction;
+use Web\Action\SignupAction;
 
 // DIC configuration
 $container = $app->getContainer();
@@ -36,6 +37,11 @@ foreach ($container->get('config')['settings'] as $key => $value) {
 }
 
 // view renderer
+/**
+ * @param $c \Interop\Container\ContainerInterface*
+ *
+ * @return PhpRenderer
+ */
 $container['renderer'] = function ($c) {
     $settings = $c->get('config');
     $settings = $settings['renderer'];
@@ -101,7 +107,8 @@ $container[MusicPageAction::class] = function (ContainerInterface $container) {
     return new MusicPageAction(
         $container->get('renderer'),
         $container->get('spotify'),
-        $container->get('db')
+        $container->get('db'),
+        $container->get('logger')
     );
 };
 
@@ -129,12 +136,29 @@ $container[SignupAction::class] = function (ContainerInterface $container) {
 };
 
 // monolog
+/**
+ * @param $c \Interop\Container\ContainerInterface*
+ *
+ * @return Logger
+ */
 $container['logger'] = function ($c) {
-    $settings = $c->get('settings')['logger'];
+    $settings = $c->get('config');
     $settings = $settings['logger'];
     $logger = new Logger($settings['name']);
     $logger->pushProcessor(new UidProcessor());
-    $logger->pushHandler(new StreamHandler($settings['path'], Logger::DEBUG));
+
+    switch ($settings['active_handler']) {
+        case 'raven': {
+            $client = new Raven_Client($settings['logs_handlers']['raven']['dsn']);
+            $handler = new RavenHandler($client);
+        };
+            break;
+        default: {
+            $handler = new StreamHandler($settings['logs_handlers']['default']['path'], Logger::DEBUG);
+        };
+    };
+
+    $logger->pushHandler($handler);
 
     return $logger;
 };

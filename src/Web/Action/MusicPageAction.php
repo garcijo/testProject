@@ -2,12 +2,13 @@
 
 namespace Web\Action;
 
+use Monolog\Logger;
 use Slim\Http\Request;
 use Slim\Http\Response;
-use Slim\Views\PhpRenderer;
-use Web\Domain\SpotifyFeed;
-use SpotifyWebAPI\SpotifyWebAPI;
 use Slim\PDO\Database;
+use Slim\Views\PhpRenderer;
+use SpotifyWebAPI\SpotifyWebAPI;
+use Web\Domain\SpotifyFeed;
 
 class MusicPageAction
 {
@@ -23,21 +24,28 @@ class MusicPageAction
      * @var Database
      */
     private $db;
+    private $logger;
 
     public function __construct(
         PhpRenderer $renderer,
         SpotifyWebAPI $spotify,
-        Database $db
+        Database $db,
+        Logger $logger
     ) {
         $this->renderer = $renderer;
         $this->spotify = $spotify;
         $this->db = $db;
+        $this->logger = $logger;
     }
 
     public function __invoke(Request $request, Response $response, $args)
     {
         // Verify if user is authenticated. If false, redirect to login
         $user = $_SESSION['user'];
+        if (empty($user)) {
+            $this->logger->addWarning('User id is empty, user history cannot be loaded!');
+        }
+
         $spotify = new SpotifyFeed($this->spotify, $this->db);
         $songs = $spotify->getMusic($user);
 

@@ -5,7 +5,7 @@ renderer:
 logger:
   name: slim-app
   # active handler
-  active_handler: 'default'
+  active_handler: 'raven'
   logs_handlers:
     default:
       # handler to write logs locally
